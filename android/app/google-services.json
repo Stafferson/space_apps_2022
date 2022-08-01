@@ -1,0 +1,167 @@
+{
+  "project_info": {
+    "project_number": "311414511724",
+    "firebase_url": "https://testtest1-326506-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "testtest1-326506",
+    "storage_bucket": "testtest1-326506.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311414511724:android:e838ff32a17c52aceb2049",
+        "android_client_info": {
+          "package_name": "com.example.fizmat_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311414511724-uom6iss8i1nkab72ag2n15gto6jfvah4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOrQQwq1ELE_o_cxlcObvW6gwg7hgyCD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311414511724-4j2cgolstjuk8rhj8npj6v7lm7l7jv51.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "311414511724-3g7na094jrcvsbsi8l2t71rphgi6a145.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fizmatAppFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311414511724:android:5c2c7ef01aa74281eb2049",
+        "android_client_info": {
+          "package_name": "com.example.fizmatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311414511724-0ai87cdvpa6samrqam4ka9d9ea436i2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmatapp",
+            "certificate_hash": "f33f52ca47e9e68b12b144d80dc16292c756a65b"
+          }
+        },
+        {
+          "client_id": "311414511724-us3ltfmsr3r63aa2o577jleqsvl7k2o7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmatapp",
+            "certificate_hash": "aacc272d3f93f65dbc5efb5e0fdde424b4951b9e"
+          }
+        },
+        {
+          "client_id": "311414511724-vlfcg2b6r0edhqudpphro3nlcuh8qvg3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmatapp",
+            "certificate_hash": "1bf7ffc76481d78c00226943b866066b7332105d"
+          }
+        },
+        {
+          "client_id": "311414511724-uom6iss8i1nkab72ag2n15gto6jfvah4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOrQQwq1ELE_o_cxlcObvW6gwg7hgyCD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311414511724-4j2cgolstjuk8rhj8npj6v7lm7l7jv51.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "311414511724-3g7na094jrcvsbsi8l2t71rphgi6a145.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fizmatAppFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311414511724:android:c3e77f6c40f960dbeb2049",
+        "android_client_info": {
+          "package_name": "kz.mdd.fizmatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311414511724-58urvsm7ai29hj9rnu4tlb1fcn4sef0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.mdd.fizmatapp",
+            "certificate_hash": "410ca9497bacad83db4538378d46f57341314db4"
+          }
+        },
+        {
+          "client_id": "311414511724-apfkm53u4abqb21vph5b228keenu4jf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.mdd.fizmatapp",
+            "certificate_hash": "1bf7ffc76481d78c00226943b866066b7332105d"
+          }
+        },
+        {
+          "client_id": "311414511724-v73guh2vppr0vvf18rghmjl0jvsjfkpr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.mdd.fizmatapp",
+            "certificate_hash": "aacc272d3f93f65dbc5efb5e0fdde424b4951b9e"
+          }
+        },
+        {
+          "client_id": "311414511724-uom6iss8i1nkab72ag2n15gto6jfvah4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOrQQwq1ELE_o_cxlcObvW6gwg7hgyCD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311414511724-4j2cgolstjuk8rhj8npj6v7lm7l7jv51.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "311414511724-3g7na094jrcvsbsi8l2t71rphgi6a145.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fizmatAppFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
