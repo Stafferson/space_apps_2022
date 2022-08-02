@@ -7,7 +7,13 @@ import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  final String? title;
+  final String? subtitle;
+  const DetailPage(
+      {Key? key,
+        required this.title,
+        required this.subtitle
+      }) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -35,7 +41,7 @@ class _DetailPageState extends State<DetailPage> {
                   tag: "sleepMeditation",
                     child: Material(
                       color: Colors.transparent,
-                      child: Text("В РФМШ Алматы вручили аттестаты выпускникам",
+                      child: Text(widget.title.toString(),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 34.w,
@@ -147,11 +153,7 @@ class _DetailPageState extends State<DetailPage> {
                 Padding(
                   padding: EdgeInsets.only(left: 28.w, right: 28.w, bottom: 80.h),
                   child: Text(
-                    "14 июня 2022 года в РФМШ Алматы состоялась торжественная церемония вручения аттестатов выпускникам 2022 года."
-                        "\n\nТоржественное мероприятие прошло в традиционном формате. В праздничном мероприятии приняли участие все выпускные классы, классные руководители и родители. Главных героев торжества школа встретила бурными аплодисментами, напомнив о достижениях каждого. Свои теплые пожелания выпускникам выразили председатель правления НАО «РФМШ» Калиев Р.С., член попечительского совета РФМШ Оспанов Б.Н., исполняющий обязанности директора школы Карим А.Т."
-                        "\n\nОтметим, в этом году РФМШ Алматы окончили 180 выпускников. Из них 7 выпускников стали обладателями знака «Алтын белгі», а 53 выпускника удостоены аттестата особого образца."
-                        "\n\nПрекрасный зал, море улыбок, приятных встреч, радостные лица и слезы счастья родителей  ожидало наших выпускников в этот волнительный день."
-                        "\n\nДорогие выпускники, от всей души поздравляем Вас с этим замечательным праздником. Надеемся, что знания, полученные в школе, вы приумножите, будете воспитывать в себе лучшие качества. Желаем, чтобы ваши мечты исполнились. Удачи вам, везения, новых достижений, счастья и успехов в дальнейшей жизни!",
+                    widget.subtitle.toString(),
                     style: TextStyle(
                         color: Color(0xffffffff).withOpacity(0.7),
                         fontWeight: FontWeight.w400,

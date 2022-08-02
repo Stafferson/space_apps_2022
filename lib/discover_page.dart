@@ -1,3 +1,4 @@
+import 'package:fizmat_app_flutter/widgets/DiscoverCardShimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,9 @@ import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card.dart';
 import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
+import 'package:shimmer/shimmer.dart';
+
+import 'fizmat_utils/news.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({
@@ -18,7 +22,10 @@ class DiscoverPage extends StatefulWidget {
   State<DiscoverPage> createState() => _DiscoverPageState();
 }
 
+List<List<String>> news = [];
+
 class _DiscoverPageState extends State<DiscoverPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,27 +121,46 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             SizedBox(
               height: 176.w,
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(width: 28.w),
-                  DiscoverCard(
-                    tag: "sleepMeditation",
-                    onTap: onSleepMeditationTapped,
-                    subtitle: "14 июня 2022 года в РФМШ Алматы состоялась...",
-                    title: "В РФМШ Алматы вручили аттестаты...",
-                  ),
-                  SizedBox(width: 20.w),
-                  DiscoverCard(
-                    onTap: onDepressionHealingTapped,
-                    title: "Depression Healing",
-                    subtitle: "10 Days Audio and Video Series",
-                    gradientStartColor: Color(0xffFC67A7),
-                    gradientEndColor: Color(0xffF6815B),
-                  ),
-                ],
-              ),
+              child: FutureBuilder<List<List<String>>>(
+                  future: load_last_news(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                      return ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: snapshot.data!.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return SizedBox(
+                              width: 16.w,
+                            );
+                          } //else if (index == snapshot.data!.length + 1) {
+                            //return SizedBox(
+                            //  width: 16.w,
+                            //);
+                            //}
+                          else {
+                            return DiscoverCard(
+                              title: "${snapshot.data![1][index - 1].substring(
+                                  0, 30)}...",
+                              subtitle: "${snapshot.data![2][index - 1]
+                                  .substring(0, 42)}...",
+                              onTap: onLastNewsTapped(index - 1),
+                            );
+                          }
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            width: 20.w,
+                          );
+                        }
+                      );
+                    }
+                    else {
+                      return CircularProgressIndicator();
+                    }
+                  }
+              )
             ),
             SizedBox(height: 28.h),
             Padding(
@@ -213,17 +239,25 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
+  Future<List<List<String>>> load_last_news() async {
+    news = await News.get_last_3_news();
+    return news;
+  }
 
   void onSeeAllTapped() {
   }
 
   void onSleepMeditationTapped() {
-    Get.to(()=> DetailPage(), transition: Transition.rightToLeft);
+    //Get.to(()=> DetailPage(), transition: Transition.rightToLeft);
   }
 
   void onDepressionHealingTapped() {
   }
 
   void onSearchIconTapped() {
+  }
+
+  onLastNewsTapped(int index) {
+    Get.to(()=> DetailPage(title: news[1][index].toString(), subtitle: news[2][index].toString()), transition: Transition.rightToLeft);
   }
 }

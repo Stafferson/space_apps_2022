@@ -49,14 +49,14 @@ Future<List<List<String>>> fetchSchedule(int _day) async {
   arr3 = await sheet!.values.column(7, fromRow: 5);
   switch (_day) {
     case (0):
-      arr4 = await sheet!.values.column(8, fromRow: 5);
-      arr = await sheet!.values.column(4, fromRow: 5);
+      arr4 = await sheet.values.column(8, fromRow: 5);
+      arr = await sheet.values.column(4, fromRow: 5);
       break;
     case (1):
-      arr1 = await sheet!.values.column(5, fromRow: 5);
+      arr1 = await sheet.values.column(5, fromRow: 5);
       break;
     case (2):
-      arr2 = await sheet!.values.column(6, fromRow: 5);
+      arr2 = await sheet.values.column(6, fromRow: 5);
       break;
     case (3):
       break;
@@ -273,7 +273,7 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void onSleepMeditationTapped() {
-    Get.to(()=> DetailPage(), transition: Transition.rightToLeft);
+    //Get.to(()=> DetailPage(), transition: Transition.rightToLeft);
   }
 
   void onDepressionHealingTapped() {

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
+import 'package:shimmer/shimmer.dart';
 
-class DiscoverCard extends StatelessWidget {
-  final String? title;
-  final String? subtitle;
+class DiscoverCardShimmer extends StatelessWidget {
   final Color? gradientStartColor;
   final Color? gradientEndColor;
   final double? height;
@@ -15,20 +14,16 @@ class DiscoverCard extends StatelessWidget {
   final Widget? vectorTop;
   final Function? onTap;
   final String? tag;
-  final bool? is_loaded;
-  const DiscoverCard(
+  const DiscoverCardShimmer(
       {Key? key,
-      this.title,
-      this.subtitle,
-      this.gradientStartColor,
-      this.gradientEndColor,
-      this.height,
-      this.width,
-      this.vectorBottom,
-      this.vectorTop,
-      this.onTap,
-      this.tag,
-      this.is_loaded})
+        this.gradientStartColor,
+        this.gradientEndColor,
+        this.height,
+        this.width,
+        this.vectorBottom,
+        this.vectorTop,
+        this.onTap,
+        this.tag,})
       : super(key: key);
 
   @override
@@ -72,7 +67,7 @@ class DiscoverCard extends StatelessWidget {
                           assetName: AssetName.vectorTop),
                     ),
                 Padding(
-                  padding: EdgeInsets.only(left: 24.w, top: 24.h, bottom: 20.h),
+                  padding: EdgeInsets.only(left: 24.w, top: 24.h, bottom: 24.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,31 +79,28 @@ class DiscoverCard extends StatelessWidget {
                             tag: tag ?? '',
                             child: Material(
                               color: Colors.transparent,
-                              child: Text(
-                                title!,
-                                style: TextStyle(
-                                    fontSize: 22.w,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
+                              child: Shimmer.fromColors(
+                                baseColor: Colors.white30,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                                )
                             ),
                           ),
                           SizedBox(
                             height: 5.h,
                           ),
-                          subtitle != null
-                              ? Text(
-                                  subtitle!,
-                                  style: TextStyle(
-                                      fontSize: 16.w,
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.white),
-                                )
-                              : Container(),
+                          Shimmer.fromColors(
+                            baseColor: Colors.white30,
+                            highlightColor: Colors.white,
+                            child: Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
+                          )
                         ],
-                      ),
-                      SizedBox(
-                        height: 4.h,
                       ),
                       Row(
                         children: const [
@@ -123,7 +115,7 @@ class DiscoverCard extends StatelessWidget {
                           //  height: 24.w,
                           //  width: 24.w,
                           //),
-                          Icon(Icons.newspaper_rounded, color: Colors.white,)
+                          const Icon(Icons.newspaper_rounded, color: Colors.white,)
                         ],
                       )
                     ],

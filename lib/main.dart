@@ -23,25 +23,6 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  Future<void> init() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
-    CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('collection');
-
-    Future<void> getData() async {
-      // Get docs from collection reference
-      QuerySnapshot querySnapshot = await _collectionRef.get();
-
-      // Get data from docs and convert map to List
-      final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-      print(allData);
-    }
-  }
-
 
   // This widget is the root of your application.
   @override

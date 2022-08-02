@@ -1,17 +1,25 @@
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+
+import '../fizmat_utils/news.dart';
 
 
 void main() async {
   final response = await http.get(
-    Uri.parse('https://almaty.fizmat.kz/o-shkole/novosti-i-meropriyatiya/'),
+    Uri.parse("https://almaty.fizmat.kz/news/v-rfmsh-almaty-vruchili-attestaty-vypusknikam/"),
   );
 
-  if (response.statusCode == 200) {
-    var document = parse(response.body);
-    var images_url = document.getElementsByClassName('news__item-img')[0].text;
-    print("1");
-    print(images_url.toString());
-    //print(document.getElementsByClassName("news__item")[0].getElementsByClassName(classNames));
-  }
+  var document = parse(response.body);
+
+  print(document.getElementById('gallery-1').toString().length);
+
+  //if (document.getElementById('gallery-1')!. != 0) {
+  //  document.getElementsByClassName('gallery-1')[0].getElementsByTagName('dl').forEach((element) {
+  //    print(element.children[0].children[0].attributes['href'].toString());
+  //  });
+  //}
+  //print(document.getElementsByClassName('col-lg-11 col-md-11 col-sm-11 col-xs-11 col-xsm-12 post')[0].children[1].attributes['src'].toString());
+
+
 }
