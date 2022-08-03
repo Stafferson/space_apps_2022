@@ -1,6 +1,6 @@
-import 'package:fizmat_app_flutter/widgets/DiscoverCardShimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/detail_page.dart';
@@ -9,7 +9,6 @@ import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card.dart';
 import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'fizmat_utils/news.dart';
 
@@ -25,7 +24,6 @@ class DiscoverPage extends StatefulWidget {
 List<List<String>> news = [];
 
 class _DiscoverPageState extends State<DiscoverPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,26 +126,33 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       return ListView.separated(
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
-                        itemCount: snapshot.data!.length + 1,
+                        itemCount: snapshot.data!.length + 2,
                         itemBuilder: (context, index) {
-                          if (index == 0) {
+                          if (index == 0 || index == snapshot.data!.length + 1) {
                             return SizedBox(
                               width: 16.w,
                             );
-                          } //else if (index == snapshot.data!.length + 1) {
-                            //return SizedBox(
-                            //  width: 16.w,
-                            //);
-                            //}
-                          else {
+                          } else {
+                            //print(snapshot.data![1][index - 1].substring(0, 30));
+                            //print(snapshot.data![2][index - 1].substring(0, 42));
                             return DiscoverCard(
+                              tag: "gay",
                               title: "${snapshot.data![1][index - 1].substring(
                                   0, 30)}...",
                               subtitle: "${snapshot.data![2][index - 1]
                                   .substring(0, 42)}...",
-                              onTap: onLastNewsTapped(index - 1),
+                              onTap: () => onLastNewsTapped(index - 1),
                             );
                           }
+
+                          //return DiscoverCard(
+                          //  title: "${snapshot.data![1][index].substring(
+                          //      0, 30)}...",
+                          //  subtitle: "${snapshot.data![2][index]
+                          //      .substring(0, 42)}...",
+                          //  onTap: onLastNewsTapped(index),
+                          //  tag: index.toString(),
+                          //);
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return SizedBox(
@@ -258,6 +263,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   onLastNewsTapped(int index) {
-    Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[2][index].toString()), transition: Transition.rightToLeft);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[2][index].toString()), transition: Transition.rightToLeft);
+    });
   }
 }

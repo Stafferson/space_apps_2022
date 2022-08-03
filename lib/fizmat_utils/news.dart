@@ -12,9 +12,9 @@ class News {
       List<String> news_url = [for (var i = 0; i < 3; i++) document.getElementsByClassName('news__item-img')[i].children[0].attributes['href'].toString()];
       List<String> news_titles = [for (var i = 0; i < 3; i++) document.getElementsByClassName('news__item-txt')[i].children[0].children[0].text.toString()];
       List<String> news_descriptions = [for (var i = 0; i < 3; i++) document.getElementsByClassName('news__item-txt')[i].children[1].text.toString()];
-      print(news_url);
-      print(news_titles);
-      print(news_descriptions);
+      //print(news_url);
+      //print(news_titles);
+      //print(news_descriptions);
       //return images_url.toString();
       //print(document.getElementsByClassName("news__item")[0].getElementsByClassName(classNames));
       return [news_url, news_titles, news_descriptions];

@@ -81,7 +81,7 @@ class DiscoverCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Hero(
-                            tag: tag ?? '',
+                            tag: tag!,
                             child: Material(
                               color: Colors.transparent,
                               child: Text(

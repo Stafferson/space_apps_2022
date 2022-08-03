@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -21,6 +21,8 @@ class DetailPage extends StatefulWidget {
   _DetailPageState createState() => _DetailPageState();
 }
 
+List<List<String>> news = [];
+
 class _DetailPageState extends State<DetailPage> {
   bool? isHeartIconTapped = false;
 
@@ -40,7 +42,7 @@ class _DetailPageState extends State<DetailPage> {
                 Padding(
                   padding: EdgeInsets.only(left: 28.w),
                   child: Hero(
-                  tag: "sleepMeditation",
+                  tag: "gay",
                     child: Material(
                       color: Colors.transparent,
                       child: Text(widget.title.toString(),
@@ -68,7 +70,7 @@ class _DetailPageState extends State<DetailPage> {
                 SizedBox(
                   height: 279.w,
                   child: FutureBuilder<List<List<String>>>(
-                      future: News.get_infonews_url(widget.url.toString()),
+                      future: load_news_info(widget.url.toString()),
                       builder: (context, snapshot) {
                         if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                           return ListView.separated(
@@ -76,6 +78,7 @@ class _DetailPageState extends State<DetailPage> {
                               physics: BouncingScrollPhysics(),
                               itemCount: snapshot.data!.length + 1,
                               itemBuilder: (context, index) {
+                                print(snapshot.data![0][index]);
                                 if (index == 0) {
                                   return SizedBox(
                                     width: 28.w,
@@ -107,7 +110,7 @@ class _DetailPageState extends State<DetailPage> {
                           );
                         }
                         else {
-                          return CircularProgressIndicator();
+                          return Center(child: CircularProgressIndicator());
                         }
                       }
                   )
@@ -204,8 +207,6 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ),
-
-
                       InkWell(
                         borderRadius: BorderRadius.circular(360),
                         onTap: onHeartIconTapped,
@@ -225,10 +226,6 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ),
-
-
-
-
                     ],
                   ),
                 ),
@@ -240,7 +237,7 @@ class _DetailPageState extends State<DetailPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 87.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   gradient: LinearGradient(
                     stops: [0,1],
@@ -257,7 +254,7 @@ class _DetailPageState extends State<DetailPage> {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(16),
-                      onTap: onStartButtonPressed,
+                      onTap: onReadOnlineButtonPressed,
                       child: Ink(
                         decoration: BoxDecoration(
                           color: Color(0xff4A80F0),
@@ -290,7 +287,12 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  void onStartButtonPressed() {
+  Future<List<List<String>>> load_news_info(url) async {
+    news = await News.get_infonews_url(url);
+    return news;
+  }
+
+  void onReadOnlineButtonPressed() {
 
   }
 

@@ -9,8 +9,9 @@ void main() async {
 
   var document = parse(response.body);
 
-  document.getElementsByClassName('gallery-item').forEach((element) {print(element.children[0].children[0].attributes['href'].toString());});
-
+  document.getElementsByClassName('tags')[0].children[1].getElementsByTagName('li').forEach((element) {
+    print(element.children[0].text.toString());
+  });
   //print(document.getElementsByClassName('gallery-item').length);
   //print(document.getElementsByClassName('gallery-item').toString());
   //print(identical(document.getElementsByClassName('gallery-item').toString(), "null"));
