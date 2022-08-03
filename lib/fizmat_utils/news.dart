@@ -31,14 +31,15 @@ class News {
     if (response.statusCode == 200) {
       var document = parse(response.body);
 
-      List<String> news_image_url = [];
-      news_image_url.add(document.getElementsByClassName('col-lg-11 col-md-11 col-sm-11 col-xs-11 col-xsm-12 post')[0].children[1].attributes['src'].toString());
+      List<String> news_images_url = [];
+      news_images_url.add(document.getElementsByClassName('col-lg-11 col-md-11 col-sm-11 col-xs-11 col-xsm-12 post')[0].children[1].attributes['src'].toString());
 
-      if ((await document.getElementsByClassName('gallery-1')).length != 0) {
-        document.getElementsByClassName('gallery-1')[0].getElementsByTagName('dl').forEach((element) {
-          news_image_url.add(element.children[0].children[0].attributes['href'].toString());
+      if (document.getElementsByClassName('gallery-item').length != 0) {
+        document.getElementsByClassName('gallery-item').forEach((element) {
+          news_images_url.add(element.children[0].children[0].attributes['href'].toString());
         });
       }
+
       List<String> news_description = [];
       document.getElementsByClassName('col-lg-11 col-md-11 col-sm-11 col-xs-11 col-xsm-12 post')[0].getElementsByTagName('p').forEach((element) {
         news_description.add(element.text.toString());
@@ -49,8 +50,8 @@ class News {
         news_rubric.add(element.children[0].text.toString());
       });
 
-      //return [news_image_url, news_description, news_rubric];
-      return [[]];
+      return [news_images_url, news_description, news_rubric];
+      //return [[]];
     } else {
       return [[]];
     }

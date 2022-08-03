@@ -5,14 +5,16 @@ import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
+import 'fizmat_utils/news.dart';
+
 
 class DetailPage extends StatefulWidget {
   final String? title;
-  final String? subtitle;
+  final String? url;
   const DetailPage(
       {Key? key,
         required this.title,
-        required this.subtitle
+        required this.url
       }) : super(key: key);
 
   @override
@@ -65,54 +67,50 @@ class _DetailPageState extends State<DetailPage> {
                 SizedBox(height: 25.h),
                 SizedBox(
                   height: 279.w,
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(width: 28.w),
-                      Container(
-                        height: 280.w,
-                        width: 280.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: Image.network("https://almaty.fizmat.kz/wp-content/uploads/sites/2/2022/06/attestat2.jpg").image,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      Container(
-                        height: 280.w,
-                        width: 280.w,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: Image.network(
-                              "https://almaty.fizmat.kz/wp-content/uploads/sites/2/2022/06/photo6147602698011258936.jpg",
-                            ).image,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      Container(
-                        height: 280.w,
-                        width: 280.w,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: Image.network(
-                              "https://almaty.fizmat.kz/wp-content/uploads/sites/2/2022/06/photo6147602698011258935.jpg",
-                            ).image,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  child: FutureBuilder<List<List<String>>>(
+                      future: News.get_infonews_url(widget.url.toString()),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                          return ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: snapshot.data!.length + 1,
+                              itemBuilder: (context, index) {
+                                if (index == 0) {
+                                  return SizedBox(
+                                    width: 28.w,
+                                  );
+                                } //else if (index == snapshot.data!.length + 1) {
+                                //return SizedBox(
+                                //  width: 16.w,
+                                //);
+                                //}
+                                else {
+                                  return Container(
+                                    height: 280.w,
+                                    width: 280.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: Image.network(snapshot.data![0][index]).image,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              separatorBuilder: (BuildContext context, int index) {
+                                return SizedBox(
+                                  width: 20.w,
+                                );
+                              }
+                          );
+                        }
+                        else {
+                          return CircularProgressIndicator();
+                        }
+                      }
+                  )
                 ),
                 SizedBox(height: 32.h),
                 Padding(
@@ -150,15 +148,25 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
                 SizedBox(height: 46.h),
-                Padding(
-                  padding: EdgeInsets.only(left: 28.w, right: 28.w, bottom: 80.h),
-                  child: Text(
-                    widget.subtitle.toString(),
-                    style: TextStyle(
-                        color: Color(0xffffffff).withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.w),
-                  ),
+                FutureBuilder<List<List<String>>>(
+                    future: News.get_infonews_url(widget.url!),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                        return Padding(
+                          padding: EdgeInsets.only(left: 28.w, right: 28.w, bottom: 80.h),
+                          child: Text(
+                            snapshot.data![1].reduce((value, element) => value + "\n" + element),
+                            style: TextStyle(
+                                color: Color(0xffffffff).withOpacity(0.7),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.w),
+                          ),
+                        );
+                      }
+                      else {
+                        return CircularProgressIndicator();
+                      }
+                    }
                 )
               ],
             ),

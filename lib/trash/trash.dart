@@ -1,8 +1,5 @@
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
-
-import '../fizmat_utils/news.dart';
 
 
 void main() async {
@@ -12,7 +9,11 @@ void main() async {
 
   var document = parse(response.body);
 
-  print(document.getElementById('gallery-1').toString().length);
+  document.getElementsByClassName('gallery-item').forEach((element) {print(element.children[0].children[0].attributes['href'].toString());});
+
+  //print(document.getElementsByClassName('gallery-item').length);
+  //print(document.getElementsByClassName('gallery-item').toString());
+  //print(identical(document.getElementsByClassName('gallery-item').toString(), "null"));
 
   //if (document.getElementById('gallery-1')!. != 0) {
   //  document.getElementsByClassName('gallery-1')[0].getElementsByTagName('dl').forEach((element) {
@@ -20,6 +21,5 @@ void main() async {
   //  });
   //}
   //print(document.getElementsByClassName('col-lg-11 col-md-11 col-sm-11 col-xs-11 col-xsm-12 post')[0].children[1].attributes['src'].toString());
-
 
 }

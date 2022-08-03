@@ -258,6 +258,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   onLastNewsTapped(int index) {
-    Get.to(()=> DetailPage(title: news[1][index].toString(), subtitle: news[2][index].toString()), transition: Transition.rightToLeft);
+    Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[2][index].toString()), transition: Transition.rightToLeft);
   }
 }
