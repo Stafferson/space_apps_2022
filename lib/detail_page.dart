@@ -1,11 +1,12 @@
   import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-
 import 'fizmat_utils/news.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class DetailPage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _DetailPageState extends State<DetailPage> {
                 Padding(
                   padding: EdgeInsets.only(left: 28.w),
                   child: Hero(
-                  tag: "gay",
+                  tag: "0",
                     child: Material(
                       color: Colors.transparent,
                       child: Text(widget.title.toString(),
@@ -68,7 +69,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 SizedBox(height: 25.h),
                 SizedBox(
-                  height: 279.w,
+                  height: 280.w,
                   child: FutureBuilder<List<List<String>>>(
                       future: load_news_info(widget.url.toString()),
                       builder: (context, snapshot) {
@@ -76,19 +77,13 @@ class _DetailPageState extends State<DetailPage> {
                           return ListView.separated(
                               scrollDirection: Axis.horizontal,
                               physics: BouncingScrollPhysics(),
-                              itemCount: snapshot.data!.length + 1,
+                              itemCount: snapshot.data![0].length + 2,
                               itemBuilder: (context, index) {
-                                print(snapshot.data![0][index]);
-                                if (index == 0) {
+                                if (index == 0 || index == snapshot.data![0].length + 1) {
                                   return SizedBox(
                                     width: 28.w,
                                   );
-                                } //else if (index == snapshot.data!.length + 1) {
-                                //return SizedBox(
-                                //  width: 16.w,
-                                //);
-                                //}
-                                else {
+                                } else {
                                   return Container(
                                     height: 280.w,
                                     width: 280.w,
@@ -96,7 +91,7 @@ class _DetailPageState extends State<DetailPage> {
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: Image.network(snapshot.data![0][index]).image,
+                                        image: Image.network(snapshot.data![0][index - 1]).image,
                                       ),
                                     ),
                                   );
@@ -151,19 +146,28 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
                 SizedBox(height: 46.h),
-                FutureBuilder<List<List<String>>>(
-                    future: News.get_infonews_url(widget.url!),
+                FutureBuilder<List<List<String>>> (
+                    future: load_news_info(widget.url!),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                         return Padding(
                           padding: EdgeInsets.only(left: 28.w, right: 28.w, bottom: 80.h),
-                          child: Text(
-                            snapshot.data![1].reduce((value, element) => value + "\n" + element),
+                          child: Linkify(
+                            text: snapshot.data![1].reduce((value, element) => value + "\n" + "\n" + element),
                             style: TextStyle(
                                 color: Color(0xffffffff).withOpacity(0.7),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16.w),
+                            options: LinkifyOptions(humanize: true),
+                            onOpen: onOpen
                           ),
+                          //Text(
+                          //  snapshot.data![1].reduce((value, element) => value + "\n" + "\n" + element),
+                          //  style: TextStyle(
+                          //      color: Color(0xffffffff).withOpacity(0.7),
+                          //      fontWeight: FontWeight.w400,
+                          //      fontSize: 16.w),
+                          //),
                         );
                       }
                       else {
@@ -304,5 +308,13 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       isHeartIconTapped = !isHeartIconTapped!;
     });
+  }
+
+  Future<void> onOpen(LinkableElement link) async {
+    if (await canLaunch(link.url)) {
+      await launch(link.url);
+    } else {
+      throw 'Could not launch $link';
+    }
   }
 }
