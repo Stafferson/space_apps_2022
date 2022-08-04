@@ -1,4 +1,4 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,12 +59,27 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 28.w),
-                  child: Text(
-                    "Рубрики: #Школьная жизнь",
-                    style: TextStyle(
-                        color: Color(0xffffffff).withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.w),
+                  child: FutureBuilder<List<List<String>>>(
+                    future: load_news_info(widget.url),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        String rubrics = "";
+                        for (var element in snapshot.data![2]) {
+                          rubrics += "$element ";
+                        }
+                        return Text(
+                          "Рубрики: $rubrics",
+                          style: TextStyle(
+                              color: Color(0xffffffff).withOpacity(0.7),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.w),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
                   ),
                 ),
                 SizedBox(height: 25.h),
@@ -145,7 +160,7 @@ class _DetailPageState extends State<DetailPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 46.h),
+                SizedBox(height: 32.h),
                 FutureBuilder<List<List<String>>> (
                     future: load_news_info(widget.url!),
                     builder: (context, snapshot) {
@@ -296,8 +311,8 @@ class _DetailPageState extends State<DetailPage> {
     return news;
   }
 
-  void onReadOnlineButtonPressed() {
-
+  Future<void> onReadOnlineButtonPressed() async{
+    await launchUrl(Uri.parse(widget.url.toString()));
   }
 
   void onBackIconTapped() {
@@ -311,10 +326,6 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> onOpen(LinkableElement link) async {
-    if (await canLaunch(link.url)) {
-      await launch(link.url);
-    } else {
-      throw 'Could not launch $link';
-    }
+    await launchUrl(Uri.parse(await link.url.replaceAll('http', 'https')));
   }
 }

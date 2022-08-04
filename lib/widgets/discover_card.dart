@@ -60,7 +60,7 @@ class DiscoverCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
                           height: 176.w,
-                          width: 305.w,
+                          width: 306.w,
                           assetName: AssetName.vectorBottom),
                     ),
                 vectorTop ??
@@ -72,7 +72,7 @@ class DiscoverCard extends StatelessWidget {
                           assetName: AssetName.vectorTop),
                     ),
                 Padding(
-                  padding: EdgeInsets.only(left: 24.w, top: 24.h, bottom: 20.h),
+                  padding: EdgeInsets.only(left: 22.w, right: 22.w, top: 22.h, bottom: 16.h,),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,14 +87,14 @@ class DiscoverCard extends StatelessWidget {
                               child: Text(
                                 title!,
                                 style: TextStyle(
-                                    fontSize: 22.w,
+                                    fontSize: 20.w,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
                             ),
                           ),
                           SizedBox(
-                            height: 5.h,
+                            height: 8.h,
                           ),
                           subtitle != null
                               ? Text(
