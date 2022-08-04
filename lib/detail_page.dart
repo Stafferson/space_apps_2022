@@ -12,10 +12,12 @@ import 'package:url_launcher/url_launcher.dart';
 class DetailPage extends StatefulWidget {
   final String? title;
   final String? url;
+  final int? index;
   const DetailPage(
       {Key? key,
         required this.title,
-        required this.url
+        required this.url,
+        required this.index
       }) : super(key: key);
 
   @override
@@ -42,16 +44,20 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 28.w),
-                  child: Hero(
-                  tag: "0",
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Text(widget.title.toString(),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Hero(
+                      tag: widget.index.toString(),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text(widget.title.toString(),
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 34.w,
-                              fontWeight: FontWeight.bold)),
-                    ),
+                          color: Colors.white,
+                          fontSize: 34.w,
+                          fontWeight: FontWeight.bold)
+                        ),
+                      ),
+                    )
                   ),
                 ),
                 SizedBox(
@@ -194,7 +200,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
 
             Align(alignment: Alignment.topCenter,
-            child:   Container(
+            child: Container(
               color:  Color(0xff121421),
               child: Padding(
                 padding: EdgeInsets.only(

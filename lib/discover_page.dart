@@ -136,7 +136,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             //print(snapshot.data![1][index - 1].substring(0, 30));
                             //print(snapshot.data![2][index - 1].substring(0, 42));
                             return DiscoverCard(
-                              tag: index.toString(),
+                              tag: (index - 1).toString(),
                               title: "${snapshot.data![1][index - 1].substring(
                                   0, 30)}...",
                               subtitle: "${snapshot.data![2][index - 1]
@@ -262,10 +262,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
   void onSearchIconTapped() {
   }
 
-  onLastNewsTapped(int index) {
+  onLastNewsTapped(int index1) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[0][index].toString()), transition: Transition.rightToLeft);
-      Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[0][index].toString()), transition: Transition.rightToLeft);
+      Get.to(()=> DetailPage(title: news[1][index1].toString(), url: news[0][index1].toString(), index: index1,), transition: Transition.rightToLeft);
     });
   }
 }
