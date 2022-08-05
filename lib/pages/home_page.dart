@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fizmat_app_flutter/schedule_page.dart';
-import 'package:fizmat_app_flutter/discover_page.dart';
+import 'package:fizmat_app_flutter/pages/schedule_page.dart';
+import 'package:fizmat_app_flutter/pages/discover_page.dart';
 import 'package:fizmat_app_flutter/icons.dart';
-import 'package:fizmat_app_flutter/profile_page.dart';
+import 'package:fizmat_app_flutter/pages/profile_page.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
 class HomePage extends StatefulWidget {

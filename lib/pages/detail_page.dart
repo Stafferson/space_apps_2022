@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'fizmat_utils/news.dart';
+import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 

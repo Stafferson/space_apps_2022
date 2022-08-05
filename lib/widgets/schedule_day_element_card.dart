@@ -1,4 +1,4 @@
-import 'package:fizmat_app_flutter/schedule_page.dart';
+import 'package:fizmat_app_flutter/pages/schedule_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

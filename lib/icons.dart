@@ -21,6 +21,7 @@ class MeditationSvgAssets {
     AssetName.discover: "assets/icons/discover.svg",
     AssetName.profile: "assets/icons/profile.svg",
     AssetName.schedule: "assets/icons/schedule.svg",
+    AssetName.fizmatApp: "assets/icons/fizmat_app.svg",
 
   };
 }
@@ -38,5 +39,6 @@ enum AssetName {
   chart,
   discover,
   profile,
-  schedule
+  schedule,
+  fizmatApp
 }

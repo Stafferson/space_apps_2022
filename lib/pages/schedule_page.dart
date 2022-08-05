@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:fizmat_app_flutter/detail_page.dart';
+import 'package:fizmat_app_flutter/pages/detail_page.dart';
 import 'package:fizmat_app_flutter/widgets/category_boxes.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card.dart';
@@ -12,9 +12,6 @@ import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 import 'package:gsheets/gsheets.dart';
 
-int _index = 0;
-final PageController _pageController = PageController(initialPage: 0, keepPage: true);
-final PageController _pageController1 = PageController(initialPage: 0, viewportFraction: 1 / 5, keepPage: true);
 const _credentials = r'''
 {
    "type": "service_account",
@@ -110,17 +107,17 @@ List<List<String>> parseSchedule(arr0) {
 
 
 
-class SchedulePage1 extends StatefulWidget {
-  const SchedulePage1({
+class SchedulePage extends StatefulWidget {
+  const SchedulePage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SchedulePage1> createState() => _SchedulePageState1();
+  State<SchedulePage> createState() => _SchedulePageState();
 }
 final List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-class _SchedulePageState1 extends State<SchedulePage1> {
+class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +141,7 @@ class _SchedulePageState1 extends State<SchedulePage1> {
                           color: Colors.white,
                           fontSize: 34.w,
                           fontWeight: FontWeight.bold)),
-                  InkWell(
+                  /*InkWell(
                     borderRadius: BorderRadius.circular(360),
                     onTap: onSearchIconTapped,
                     child: Container(
@@ -158,27 +155,15 @@ class _SchedulePageState1 extends State<SchedulePage1> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
-              height: 560.h,
+              height: 610.h,
               child: Center(
                 child: PageView.builder (
-                  onPageChanged: (int index) {
-                    setState(() {
-                      _index = index;
-                      print(_index);
-                      _pageController1.animateToPage(
-                        _index,
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeIn,
-                      );
-                    });
-                  },
-                  controller: _pageController,
                   // padding: EdgeInsets.only(
                   //   left: 40.w,
                   //   right: 40.w,
@@ -197,77 +182,12 @@ class _SchedulePageState1 extends State<SchedulePage1> {
                 ),
               ),
             ),
-
-            Container(
-              transform: Matrix4.translationValues(0.0, -14.0, 0.0),
-              height: 100.h,
-              margin: EdgeInsets.only(left: 0, right: 0),
-              child: PageView.builder(
-                onPageChanged: (int index) {
-                  setState(() {
-                    _index = index;
-                    print(_index);
-                    _pageController.animateToPage(
-                      _index,
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeIn,
-                    );
-                  });
-                },
-                controller: _pageController1,
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: InkWell(
-                      splashFactory: NoSplash.splashFactory,
-                      onTap: () {
-                        //fetchSchedule();
-                        goToSelectedDay(index);
-                      },
-                      child: TextButton(
-                          onPressed: () => print("DSA"),
-                          child: Text(
-                            days[index],
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 10.w,
-                              color: Colors.white),
-                          )
-                      ),
-                    ),
-                  );
-                },
-                itemCount: days.length,
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              width: 10.w,
-              height: 10.w,
-              transform: Matrix4.translationValues(0.0, -30.0, 0.0),
-            )
           ],
         ),
       ),
     );
   }
 
-  goToSelectedDay(int index) {
-    _index = index;
-    _pageController1.animateToPage(
-      _index,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeIn,
-    );
-    _pageController.animateToPage(
-      _index,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeIn,
-    );
-    //print("DSA $index");
-  }
 
   void onSeeAllTapped() {
   }

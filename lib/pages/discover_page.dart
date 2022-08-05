@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:fizmat_app_flutter/detail_page.dart';
+import 'package:fizmat_app_flutter/pages/detail_page.dart';
 import 'package:fizmat_app_flutter/widgets/category_boxes.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card.dart';
 import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
-import 'fizmat_utils/news.dart';
+import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({
