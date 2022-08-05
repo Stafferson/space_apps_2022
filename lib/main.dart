@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(),
         home: AnimatedSplashScreen(
-            duration: 1500,
+            duration: 200,
             splash: SvgAsset(
               assetName: AssetName.fizmatApp,
               width: 112.w,
