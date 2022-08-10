@@ -1,13 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:gsheets/gsheets.dart';
-import 'package:http/http.dart';
 
-import '../firebase_options.dart';
-
-/// Your google auth credentials
-///
-/// how to get credentials - https://medium.com/@a.marenkov/how-to-get-credentials-for-google-sheets-456b7e88c430
 const _credentials = r'''
 {
    "type": "service_account",
@@ -22,33 +14,16 @@ const _credentials = r'''
    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/server-sheet-acceser%40testtest1-326506.iam.gserviceaccount.com"
 }
 ''';
-
-/// Your spreadsheet id
-///
-/// It can be found in the link to your spreadsheet -
-/// link looks like so https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=0
-/// [YOUR_SPREADSHEET_ID] in the path is the id your need
 const _spreadsheetId = '1LdtKUIRmVL6zoxAvbD83ecbLQouSlXyU-65XNl7rLT8';
 
 void main() async {
   Future<void> init() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
 
-    CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('collection');
+    final gsheets = GSheets(_credentials);
 
-    Future<void> getData() async {
-      // Get docs from collection reference
-      QuerySnapshot querySnapshot = await _collectionRef.get();
+    // fetch spreadsheet by its id
+    final ss = await gsheets.spreadsheet(_spreadsheetId);
 
-      // Get data from docs and convert map to List
-      final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-      print(allData);
-    }
+    final sheet = await ss.worksheetByTitle("10E");
   }
-
-  init();
 }

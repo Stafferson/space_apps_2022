@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:shimmer/shimmer.dart';
 
-class DiscoverCardShimmer extends StatelessWidget {
+class DiscoverCardLoadingError extends StatelessWidget {
+  final String? title;
+  final String? subtitle;
   final Color? gradientStartColor;
   final Color? gradientEndColor;
   final double? height;
@@ -14,8 +15,11 @@ class DiscoverCardShimmer extends StatelessWidget {
   final Widget? vectorTop;
   final Function? onTap;
   final String? tag;
-  const DiscoverCardShimmer(
+  final bool? is_loaded;
+  const DiscoverCardLoadingError(
       {Key? key,
+        this.title,
+        this.subtitle,
         this.gradientStartColor,
         this.gradientEndColor,
         this.height,
@@ -23,7 +27,8 @@ class DiscoverCardShimmer extends StatelessWidget {
         this.vectorBottom,
         this.vectorTop,
         this.onTap,
-        this.tag,})
+        this.tag,
+        this.is_loaded})
       : super(key: key);
 
   @override
@@ -55,7 +60,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
                           height: 176.w,
-                          width: 305.w,
+                          width: 306.w,
                           assetName: AssetName.vectorBottom),
                     ),
                 vectorTop ??
@@ -67,7 +72,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                           assetName: AssetName.vectorTop),
                     ),
                 Padding(
-                  padding: EdgeInsets.only(left: 24.w, top: 24.h, bottom: 24.h),
+                  padding: EdgeInsets.only(left: 22.w, right: 22.w, top: 22.h, bottom: 16.h,),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,32 +80,35 @@ class DiscoverCardShimmer extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Hero(
-                            tag: tag ?? '',
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Shimmer.fromColors(
-                                baseColor: Colors.white30,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                                )
+                          Material(
+                            color: Colors.transparent,
+                            child: Hero(
+                              tag: tag!,
+                              child: Text(
+                                title!,
+                                style: TextStyle(
+                                    fontSize: 20.w,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
                           SizedBox(
-                            height: 5.h,
+                            height: 8.h,
                           ),
-                          Shimmer.fromColors(
-                            baseColor: Colors.white30,
-                            highlightColor: Colors.white,
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                            ),
+                          subtitle != null
+                              ? Text(
+                            subtitle!,
+                            style: TextStyle(
+                                fontSize: 16.w,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.white),
                           )
+                              : Container(),
                         ],
+                      ),
+                      SizedBox(
+                        height: 4.h,
                       ),
                       Row(
                         children: const [
@@ -115,7 +123,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                           //  height: 24.w,
                           //  width: 24.w,
                           //),
-                          const Icon(Icons.newspaper_rounded, color: Colors.white,)
+                          Icon(Icons.newspaper_rounded, color: Colors.white,)
                         ],
                       )
                     ],
