@@ -17,7 +17,7 @@ class News {
       //print(news_descriptions);
       //return images_url.toString();
       //print(document.getElementsByClassName("news__item")[0].getElementsByClassName(classNames));
-      return [news_url, news_titles, news_descriptions];
+      return [news_url, news_titles, news_descriptions] ;
     } else {
       return [[]];
     }

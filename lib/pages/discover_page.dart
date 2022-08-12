@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:fizmat_app_flutter/widgets/discover_card_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -128,19 +130,36 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         physics: BouncingScrollPhysics(),
                         itemCount: snapshot.data!.length + 2,
                         itemBuilder: (context, index) {
+                          print("gay");
+                          print(snapshot.data![0].toString());
+                          print(snapshot.data![1].toString());
+                          print(snapshot.data![2].toString());
+
                           if (index == 0 || index == snapshot.data!.length + 1) {
                             return SizedBox(
                               width: 16.w,
                             );
                           } else {
-                            //print(snapshot.data![1][index - 1].substring(0, 30));
-                            //print(snapshot.data![2][index - 1].substring(0, 42));
+                            String subtitle = "";
+                            String title = "";
+                            if (snapshot.data![1][index - 1].length > 29) {
+                              title = snapshot.data![1][index - 1].substring(
+                                  0, 30);
+                            } else {
+                              title = snapshot.data![1][index - 1];
+                            }
+
+                            if (snapshot.data![2][index - 1].length > 41) {
+                              subtitle = snapshot.data![2][index - 1]
+                                  .substring(0, 42);
+                            } else {
+                              subtitle = snapshot.data![2][index - 1];
+                            }
+
                             return DiscoverCard(
                               tag: (index - 1).toString(),
-                              title: "${snapshot.data![1][index - 1].substring(
-                                  0, 30)}...",
-                              subtitle: "${snapshot.data![2][index - 1]
-                                  .substring(0, 42)}...",
+                              title: "$title...",
+                              subtitle: "$subtitle...",
                               onTap: () => onLastNewsTapped(index - 1),
                             );
                           }
@@ -162,7 +181,34 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       );
                     }
                     else {
-                      return CircularProgressIndicator();
+                      return ListView(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        children: <Widget>[
+
+                          SizedBox(
+                            width: 36.w,
+                          ),
+
+                          DiscoverCardShimmer(),
+
+                          SizedBox(
+                            width: 20.w,
+                          ),
+
+                          DiscoverCardShimmer(),
+
+                          SizedBox(
+                            width: 20.w,
+                          ),
+
+                          DiscoverCardShimmer(),
+
+                          SizedBox(
+                            width: 36.w,
+                          ),
+                        ],
+                      );
                     }
                   }
               )
@@ -259,7 +305,16 @@ class _DiscoverPageState extends State<DiscoverPage> {
   void onDepressionHealingTapped() {
   }
 
-  void onSearchIconTapped() {
+  Future<void> onSearchIconTapped() async {
+    print("here");
+    DatabaseReference ref = FirebaseDatabase.instance.ref();
+    await ref.set({
+      "name": "Johsan",
+      "age": 189,
+      "addressd": {
+        "line1": "100 Mountain View"
+      }
+    });
   }
 
   onLastNewsTapped(int index1) {
