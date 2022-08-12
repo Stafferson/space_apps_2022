@@ -37,7 +37,7 @@ void main() async {
     );
 
     CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('collection');
+        FirebaseFirestore.instance.collection('collection');
 
     Future<void> getData() async {
       // Get docs from collection reference
