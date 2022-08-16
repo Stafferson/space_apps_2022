@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: (_, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
+        theme: ThemeData(colorScheme: ColorScheme.dark()),
         home: AnimatedSplashScreen(
-            duration: 200,
+            duration: 100,
             splash: SvgAsset(
               assetName: AssetName.fizmatApp,
               width: 112.w,

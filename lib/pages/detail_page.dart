@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
@@ -69,21 +70,24 @@ class _DetailPageState extends State<DetailPage> {
                     future: load_news_info(widget.url),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        String rubrics = "";
-                        for (var element in snapshot.data![2]) {
-                          rubrics += "$element ";
+                        if (snapshot.data![2].length != 0) {
+                          String rubrics = "";
+                          for (var element in snapshot.data![2]) {
+                            rubrics += "$element ";
+                          }
+                          return Text(
+                            "Рубрики: $rubrics",
+                            style: TextStyle(
+                                color: Color(0xffffffff).withOpacity(0.7),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.w),
+                          );
+                        } else {
+                          return Container();
                         }
-                        return Text(
-                          "Рубрики: $rubrics",
-                          style: TextStyle(
-                              color: Color(0xffffffff).withOpacity(0.7),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16.w),
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                      }
+                      else {
+                        return Container();
                       }
                     },
                   ),
@@ -126,7 +130,10 @@ class _DetailPageState extends State<DetailPage> {
                           );
                         }
                         else {
-                          return Center(child: CircularProgressIndicator());
+                          return const SpinKitDoubleBounce(
+                            color: Colors.white,
+                            size: 50.0,
+                          );
                         }
                       }
                   )
@@ -192,7 +199,10 @@ class _DetailPageState extends State<DetailPage> {
                         );
                       }
                       else {
-                        return CircularProgressIndicator();
+                        return const SpinKitDoubleBounce(
+                          color: Colors.white,
+                          size: 50.0,
+                        );
                       }
                     }
                 )

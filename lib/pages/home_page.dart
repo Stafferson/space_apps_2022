@@ -1,3 +1,5 @@
+import 'package:bottom_bar_page_transition/bottom_bar_page_transition.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fizmat_app_flutter/pages/schedule_page.dart';
 import 'package:fizmat_app_flutter/pages/discover_page.dart';
@@ -5,8 +7,10 @@ import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/pages/profile_page.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
+import '../fizmat_utils/animated_indexed_stack.dart';
+
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const   HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,13 +24,19 @@ class _HomePageState extends State<HomePage> {
     ProfilePage()
   ];
 
+  List<SvgAsset> icons = [
+    const SvgAsset(assetName: AssetName.discover),
+    const SvgAsset(assetName: AssetName.schedule),
+    const SvgAsset(assetName: AssetName.profile),
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
@@ -108,6 +118,25 @@ class _HomePageState extends State<HomePage> {
           onTap: _onItemTapped,
           backgroundColor: Color(0xff1C2031),
         ),
+      ),
+    );
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: AnimatedIndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 56,
+        color:  Color(0xFF1C2031),
+        backgroundColor: Color(0xff121421),
+        items: icons,
+        onTap: (index) {
+          _onItemTapped(index);
+        },
       ),
     );
   }

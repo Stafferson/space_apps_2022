@@ -17,7 +17,8 @@ class ScheduleDayCard extends StatefulWidget {
   final Widget? vectorTop;
   final Function? onTap;
   final int tagD;
-  ScheduleDayCard(
+  final List<String>? schedule;
+  const ScheduleDayCard(
       {Key? key,
         this.title,
         this.subtitle,
@@ -28,7 +29,8 @@ class ScheduleDayCard extends StatefulWidget {
         this.vectorBottom,
         this.vectorTop,
         this.onTap,
-        required this.tagD,})
+        required this.tagD,
+        required this.schedule,})
       : super(key: key);
 
   @override
@@ -121,7 +123,7 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                                 fontWeight: FontWeight.w300,
                                 color: Colors.white),
                           ): Container(),
-                          FutureBuilder<List<List<String>>>(
+                          /*FutureBuilder<List<List<String>>>(
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
                                   print(snapshot.toString());
@@ -155,11 +157,40 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                                 }
                               },
                               future: fetchSchedule(widget.tagD)
+                          ),*/
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  separatorBuilder: (context, index) => const Divider(
+                                    color: Colors.white,
+                                    endIndent: 25,
+                                  ),
+                                  itemCount: widget.schedule!.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                  return Text(
+                                    widget.schedule![index].toString(),
+                                    style: TextStyle(
+                                      fontSize: 16.w,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white,
+                                      height: 1.1,
+                                    ),
+                                  );
+                                },
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       ),
                       Row(
-                        children: [
+                        children: const [
                           //Icon(Icons.)
                           //const Icon(Icons.newspaper_rounded, color: Colors.white,)
                         ],
