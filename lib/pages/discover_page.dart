@@ -1,3 +1,4 @@
+import 'package:animate_icons/animate_icons.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fizmat_app_flutter/pages/class_choose_page.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card_shimmer.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/pages/detail_page.dart';
 import 'package:fizmat_app_flutter/widgets/category_boxes.dart';
@@ -26,6 +28,8 @@ class DiscoverPage extends StatefulWidget {
 
 List<List<String>> news = [];
 
+AnimateIconController _controller = AnimateIconController();
+
 class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
@@ -33,82 +37,84 @@ class _DiscoverPageState extends State<DiscoverPage> {
       appBar: appbar_builder(),
       backgroundColor: Color(0xff121421),
       body: SafeArea(
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          //physics: const BouncingScrollPhysics(),
-          physics: const ClampingScrollPhysics(),
-          children: [
-            /*Padding(
-              padding: EdgeInsets.only(
-                left: 28.w,
-                right: 18.w,
-                top: 16.h,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Discover",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 34.w,
-                          fontWeight: FontWeight.bold)),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(360),
-                    onTap: onSearchIconTapped,
-                    child: Container(
-                      height: 35.w,
-                      width: 35.w,
-                      child: Center(
-                        child: SvgAsset(
-                          assetName: AssetName.search,
-                          height: 24.w,
-                          width: 24.w,
+        child: AnimationLimiter(
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            //physics: const BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(),
+            children: [
+              /*Padding(
+                padding: EdgeInsets.only(
+                  left: 28.w,
+                  right: 18.w,
+                  top: 16.h,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Discover",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 34.w,
+                            fontWeight: FontWeight.bold)),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(360),
+                      onTap: onSearchIconTapped,
+                      child: Container(
+                        height: 35.w,
+                        width: 35.w,
+                        child: Center(
+                          child: SvgAsset(
+                            assetName: AssetName.search,
+                            height: 24.w,
+                            width: 24.w,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),*/
+              category_boxes_builder(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 28.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Last News",
+                      style: TextStyle(
+                          color: Color(0xff515979),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.w),
+                    ),
+                    GestureDetector(
+                        onTap: onSeeAllTapped,
+                        child: Text("See All",
+                            style: TextStyle(
+                                color: Color(0xff4A80F0),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.w)))
+                  ],
+                ),
               ),
-            ),*/
-            category_boxes_builder(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 28.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Last News",
-                    style: TextStyle(
-                        color: Color(0xff515979),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.w),
-                  ),
-                  GestureDetector(
-                      onTap: onSeeAllTapped,
-                      child: Text("See All",
-                          style: TextStyle(
-                              color: Color(0xff4A80F0),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.w)))
-                ],
+              SizedBox(height: 14.h,),
+              last_news_builder(),
+              SizedBox(height: 14.h),
+              Padding(
+                padding: EdgeInsets.only(left: 28.w),
+                child: Text(
+                  "Main menu",
+                  style: TextStyle(
+                      color: Color(0xff515979),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.w),
+                ),
               ),
-            ),
-            SizedBox(height: 16.h,),
-            last_news_builder(),
-            SizedBox(height: 16.h),
-            Padding(
-              padding: EdgeInsets.only(left: 28.w),
-              child: Text(
-                "Main menu",
-                style: TextStyle(
-                    color: Color(0xff515979),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.w),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            main_menu_builder(),
-          ],
+              SizedBox(height: 14.h),
+              main_menu_builder(),
+            ],
+          ),
         ),
       ),
     );
@@ -116,6 +122,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   Future<List<List<String>>> load_last_news() async {
     news = await News.get_last_3_news();
+
     return news;
   }
 
@@ -144,17 +151,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
       child: FutureBuilder<List<List<String>>>(
           future: load_last_news(),
           builder: (context, snapshot) {
+            Widget _child;
             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-              return ListView.separated(
+              _child = ListView.separated(
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data!.length + 2,
                   itemBuilder: (context, index) {
-                    //print("gay");
-                    //print(snapshot.data![0].toString());
-                    //print(snapshot.data![1].toString());
-                    //print(snapshot.data![2].toString());
-
                     if (index == 0 || index == snapshot.data!.length + 1) {
                       return SizedBox(
                         width: 16.w,
@@ -201,7 +204,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               );
             }
             else {
-              return ListView(
+              _child = ListView(
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
                 children: <Widget>[
@@ -230,6 +233,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 ],
               );
             }
+
+            return AnimatedSwitcher(
+              duration: Duration(milliseconds: 250),
+              child: _child,
+            );
           }
       ),
     );
@@ -330,28 +338,31 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   AppBar appbar_builder() {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Padding(
         padding: EdgeInsets.only(
           left: 14.w,
           top: 16.h,
         ),
-        child: Text("Discover",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 34.w,
-                fontWeight: FontWeight.bold)
+        child: Hero(
+          tag: "Discover",
+          child: Text("Discover",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 34.w,
+                  fontWeight: FontWeight.bold)
+          ),
         ),
       ),
       actions: <Widget>[
-        Padding(
+        /*Padding(
           padding: EdgeInsets.only(
             top: 16.h,
           ),
           child: IconButton(
-            icon: SvgAsset(
-              assetName: AssetName.search,
-              height: 24.w,
-              width: 24.w,
+            icon: Icon(
+              Icons.search_rounded,
+              size: 30.w,
             ),
             tooltip: 'Show Snackbar',
             onPressed: () {
@@ -359,19 +370,20 @@ class _DiscoverPageState extends State<DiscoverPage> {
               //    const SnackBar(content: Text('This is a snackbar')));
             },
           ),
-        ),
-        Padding(
+        ),*/
+        /*Padding(
           padding: EdgeInsets.only(
             top: 16.h,
           ),
           child: IconButton(
             icon: Icon(
-                Icons.info,
-                size: 24.w,
+                Icons.refresh_rounded,
+                size: 30.w,
             ),
-            tooltip: 'Go to the next page',
+            tooltip: 'Refresh current page',
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute<void>(
+              setState(() {});
+              /*Navigator.push(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return Scaffold(
                     appBar: AppBar(
@@ -380,8 +392,36 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     body: info_page_builder(),
                   );
                 },
-              ));
+              ));*/
             },
+          ),
+        ),*/
+
+        Padding(
+          padding: EdgeInsets.only(
+            top: 16.h,
+          ),
+          child: AnimateIcons(
+            startIcon: Icons.refresh_rounded,
+            endIcon: Icons.refresh_rounded,
+            size: 28.0,
+            // add this tooltip for the start icon
+            startTooltip: 'Icons.add_circle',
+            // add this tooltip for the end icon
+            endTooltip: 'Icons.add_circle_outline',
+            controller: _controller,
+            onStartIconPress: () {
+              setState(() {});
+              return true;
+            },
+            onEndIconPress: () {
+              print("Clicked on Add Icon");
+              return true;
+            },
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
+            duration: Duration(milliseconds: 500),
+            clockwise: true,
           ),
         ),
       ],

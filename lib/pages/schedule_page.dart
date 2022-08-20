@@ -15,6 +15,8 @@ import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
+
 class SchedulePage extends StatefulWidget {
   const SchedulePage({
     Key? key,
@@ -24,14 +26,13 @@ class SchedulePage extends StatefulWidget {
   State<SchedulePage> createState() => _SchedulePageState();
 }
 
-SharedPreferences? prefs;
 final List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
 class _SchedulePageState extends State<SchedulePage> {
 
   @override
-  void InitState() async{
-    prefs = await SharedPreferences.getInstance();
+  void InitState() async {
+    print("INITITIIT");
   }
 
   @override
@@ -79,6 +80,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 } else {
                   _child = PageView.builder (
                     itemBuilder: (BuildContext context, int index) {
+                      print("SCHEDULE UPDATED");
                       return Padding(
                         padding: const EdgeInsets.only(left: 35.0, right: 35.0),
                         child: ScheduleDayCard(
@@ -94,19 +96,27 @@ class _SchedulePageState extends State<SchedulePage> {
                 }
               } else {
                 List<List<String>?> schedule = [prefs?.getStringList("class_monday"), prefs?.getStringList("class_tuesday"), prefs?.getStringList("class_wednesday"), prefs?.getStringList("class_thursday"), prefs?.getStringList("class_friday")];
-
-
-                print(schedule);
-                print("gay");
-                print(prefs?.getStringList('class_monday'));
-                print(prefs?.getStringList('class_tuesday'));
-                print(prefs?.getStringList('class_wednesday'));
-                print(prefs?.getStringList('class_thursday'));
-                print(prefs?.getStringList('class_friday'));
-                _child = const SpinKitDoubleBounce(
-                  color: Colors.white,
-                  size: 50.0,
-                );
+                if (schedule[0] != null) {
+                  _child = PageView.builder (
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                        child: ScheduleDayCard(
+                            tagD : index,
+                            title: days[index],
+                            schedule: schedule[index],
+                            subtitle: "${days[index]} subtitle"
+                        ),
+                      );
+                    },
+                    itemCount: days.length,
+                  );
+                } else {
+                  _child = const SpinKitDoubleBounce(
+                    color: Colors.white,
+                    size: 50.0,
+                  );
+                }
               }
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),

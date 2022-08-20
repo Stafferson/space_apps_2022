@@ -51,10 +51,10 @@ class _DetailPageState extends State<DetailPage> {
                       tag: widget.index.toString(),
                       child: Material(
                         color: Colors.transparent,
-                        child: Text(widget.title.toString(),
+                        child: DefaultTextStyle(child: Text(widget.title.toString()),
                           style: TextStyle(
                           color: Colors.white,
-                          fontSize: 34.w,
+                          fontSize: 32.w,
                           fontWeight: FontWeight.bold)
                         ),
                       ),
@@ -69,13 +69,14 @@ class _DetailPageState extends State<DetailPage> {
                   child: FutureBuilder<List<List<String>>>(
                     future: load_news_info(widget.url),
                     builder: (context, snapshot) {
+                      Widget _child;
                       if (snapshot.hasData) {
                         if (snapshot.data![2].length != 0) {
                           String rubrics = "";
                           for (var element in snapshot.data![2]) {
                             rubrics += "$element ";
                           }
-                          return Text(
+                          _child = Text(
                             "Рубрики: $rubrics",
                             style: TextStyle(
                                 color: Color(0xffffffff).withOpacity(0.7),
@@ -83,12 +84,17 @@ class _DetailPageState extends State<DetailPage> {
                                 fontSize: 16.w),
                           );
                         } else {
-                          return Container();
+                          _child = Container();
                         }
                       }
                       else {
-                        return Container();
+                        _child = Container();
                       }
+
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 350),
+                        child: _child,
+                      );
                     },
                   ),
                 ),
@@ -98,8 +104,9 @@ class _DetailPageState extends State<DetailPage> {
                   child: FutureBuilder<List<List<String>>>(
                       future: load_news_info(widget.url.toString()),
                       builder: (context, snapshot) {
+                        Widget _child;
                         if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                          return ListView.separated(
+                          _child = ListView.separated(
                               scrollDirection: Axis.horizontal,
                               physics: BouncingScrollPhysics(),
                               itemCount: snapshot.data![0].length + 2,
@@ -130,11 +137,16 @@ class _DetailPageState extends State<DetailPage> {
                           );
                         }
                         else {
-                          return const SpinKitDoubleBounce(
+                          _child = const SpinKitDoubleBounce(
                             color: Colors.white,
                             size: 50.0,
                           );
                         }
+
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 350),
+                          child: _child,
+                        );
                       }
                   )
                 ),
@@ -222,7 +234,7 @@ class _DetailPageState extends State<DetailPage> {
                 child: Material(
                   color: Colors.transparent,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       InkWell(
                         borderRadius: BorderRadius.circular(360),
@@ -342,6 +354,14 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> onOpen(LinkableElement link) async {
-    await launchUrl(Uri.parse(await link.url.replaceAll('http', 'https')));
+
+    if (await canLaunchUrl(Uri.parse(link.url))) {
+      await launchUrl(Uri.parse(link.url));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Could not launch url"),
+      ));
+    }
+    //await launchUrl(Uri.parse(await link.url.replaceAll('http', 'https')));
   }
 }

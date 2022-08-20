@@ -15,11 +15,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "311414511724-6j1rk6t628aa1ckqpf7s0u8u6ot3p67l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmat_app_flutter",
+            "certificate_hash": "410ca9497bacad83db4538378d46f57341314db4"
+          }
+        },
+        {
           "client_id": "311414511724-91pbmjsidkr3pkmvqte9fc3lvsk7jul7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.fizmat_app_flutter",
             "certificate_hash": "1bf7ffc76481d78c00226943b866066b7332105d"
+          }
+        },
+        {
+          "client_id": "311414511724-9nsvq07h1ue6focnuqju4d1dj935tbp0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmat_app_flutter",
+            "certificate_hash": "aacc272d3f93f65dbc5efb5e0fdde424b4951b9e"
+          }
+        },
+        {
+          "client_id": "311414511724-li6vpu1e3k7od8chn3in90hgsl7gc3t9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmat_app_flutter",
+            "certificate_hash": "f33f52ca47e9e68b12b144d80dc16292c756a65b"
           }
         },
         {

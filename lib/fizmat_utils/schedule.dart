@@ -1,6 +1,8 @@
 import 'package:gsheets/gsheets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
+
 const _credentials = r'''
 {
    "type": "service_account",
@@ -53,6 +55,12 @@ class Schedule {
         arr3.removeWhere((element) => element.length <= 5);
         arr4.removeWhere((element) => element.length <= 5);
 
+        prefs.setStringList("class_monday", arr0);
+        prefs.setStringList("class_tuesday", arr1);
+        prefs.setStringList("class_wednesday", arr2);
+        prefs.setStringList("class_thursday", arr3);
+        prefs.setStringList("class_friday", arr4);
+
         return [arr0, arr1, arr2, arr3, arr4];
       } else {
         print("1");
@@ -66,16 +74,15 @@ class Schedule {
 
   static Future<List<List<String>>> get_saved_class_schedule() async {
 
-    final prefs = await SharedPreferences.getInstance();
-    String? _class = prefs.getString('class');
+    String? _class = prefs!.getString('class');
     print("class: {$_class}");
 
 
-    arr0 = await prefs.getStringList("class_monday")!;
-    arr1 = await prefs.getStringList("class_tuesday")!;
-    arr2 = await prefs.getStringList("class_wednesday")!;
-    arr3 = await prefs.getStringList("class_thursday")!;
-    arr4 = await prefs.getStringList("class_friday")!;
+    arr0 = await prefs!.getStringList("class_monday")!;
+    arr1 = await prefs!.getStringList("class_tuesday")!;
+    arr2 = await prefs!.getStringList("class_wednesday")!;
+    arr3 = await prefs!.getStringList("class_thursday")!;
+    arr4 = await prefs!.getStringList("class_friday")!;
 
     if (arr0 != null) {
       return [arr0, arr1, arr2, arr3, arr4];

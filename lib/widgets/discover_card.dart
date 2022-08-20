@@ -84,8 +84,8 @@ class DiscoverCard extends StatelessWidget {
                             color: Colors.transparent,
                             child: Hero(
                               tag: tag!,
-                              child: Text(
-                                title!,
+                              child: DefaultTextStyle(
+                                child: Text(title!),
                                 style: TextStyle(
                                     fontSize: 20.w,
                                     fontWeight: FontWeight.bold,
