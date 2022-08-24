@@ -3,12 +3,13 @@ class UserFiz {
   String? email;
   String? fcmToken;
   String? photoURL;
+  String? UID;
   int? forumCount;
 
   UserFiz();
 
   UserFiz.set(
-      this.name, this.email, this.fcmToken, this.photoURL, this.forumCount);
+      this.name, this.email, this.fcmToken, this.photoURL, this.forumCount, this.UID);
 
   String? getName() {
     return name;
@@ -46,23 +47,33 @@ class UserFiz {
     return photoURL;
   }
 
-  UserFiz setPhotoURL(String? photoURL) {
+  void setPhotoURL(String? photoURL) {
     this.photoURL = photoURL;
-    return this;
+  }
+
+  String? getUID() {
+    return UID;
+  }
+
+  void setUID(String? UID) {
+    this.UID = UID;
   }
 
   Map<String, Object?> toJson() => {
-        'email': email,
-        'name': name,
-        'photoURL': photoURL,
-        'fcmToken': fcmToken,
-        'forumCount': forumCount
-      };
+    'email': email,
+    'name': name,
+    'photoURL': photoURL,
+    'fcmToken': fcmToken,
+    'forumCount': forumCount,
+    'UID': UID,
+  };
 
   factory UserFiz.fromJson(Map<String, dynamic> json) => UserFiz.set(
-      json['name'],
-      json['email'],
-      json['fcmToken'],
-      json['photoURL'],
-      json['forumCount']);
+    json['name'],
+    json['email'],
+    json['fcmToken'],
+    json['photoURL'],
+    json['forumCount'],
+    json["UID"],
+  );
 }

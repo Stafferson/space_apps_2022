@@ -122,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage>
                       DatabaseManager dat = DatabaseManager();
                       UserCredential? credential = await signInWithGoogle();
                       if (credential == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Используйте fizmat аккаунт"),
                           backgroundColor: Colors.white,
                           behavior: SnackBarBehavior.floating,
@@ -131,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage>
                       }
                       User? us = credential.user;
                       if (us == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Произошла ошибка"),
                           backgroundColor: Colors.white,
                           behavior: SnackBarBehavior.floating,
@@ -142,10 +142,11 @@ class _RegisterPageState extends State<RegisterPage>
                       user.setEmail(us.email);
                       user.setName(us.displayName);
                       user.setPhotoURL(us.photoURL);
+                      user.setUID(us.uid);
                       final fcmT = await FirebaseMessaging.instance.getToken();
                       user.setFcmToken(fcmT);
                       dat.addUser(user);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Успешно"),
                         backgroundColor: Colors.white,
                         behavior: SnackBarBehavior.floating,

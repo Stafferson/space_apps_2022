@@ -1,84 +1,68 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage1 extends StatelessWidget {
+  const ProfilePage1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121421),
-      body: SafeArea(
-        child: AnimationLimiter(
-          child: Column(
-            children: [
-              const Expanded(flex: 2, child: _TopPortion()),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
+      body: Column(
+        children: [
+          const Expanded(flex: 2, child: _TopPortion()),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    "Richie Lorie",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "${user!.displayName}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                      FloatingActionButton.extended(
+                        onPressed: () {},
+                        heroTag: 'follow',
+                        elevation: 0,
+                        label: const Text("Follow"),
+                        icon: const Icon(Icons.person_add_alt_1),
                       ),
-                      const SizedBox(height: 16),
-                      profile_buttons_builder(),
-                      const SizedBox(height: 16),
-                      const _ProfileInfoRow()
+                      const SizedBox(width: 16.0),
+                      FloatingActionButton.extended(
+                        onPressed: () {},
+                        heroTag: 'mesage',
+                        elevation: 0,
+                        backgroundColor: Colors.red,
+                        label: const Text("Message"),
+                        icon: const Icon(Icons.message_rounded),
+                      ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  const _ProfileInfoRow()
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
 
-Widget profile_buttons_builder() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      FloatingActionButton.extended(
-        onPressed: () {},
-        heroTag: 'follow',
-        elevation: 0,
-        label: const Text("Follow"),
-        icon: const Icon(Icons.person_add_alt_1),
-      ),
-      const SizedBox(width: 16.0),
-      FloatingActionButton.extended(
-        onPressed: () {},
-        heroTag: 'mesage',
-        elevation: 0,
-        backgroundColor: Colors.red,
-        label: const Text("Message"),
-        icon: const Icon(Icons.message_rounded),
-      ),
-    ],
-  );
-}
-
-final FirebaseAuth auth = FirebaseAuth.instance;
-final User? user = auth.currentUser;
-
 class _ProfileInfoRow extends StatelessWidget {
   const _ProfileInfoRow({Key? key}) : super(key: key);
 
   final List<ProfileInfoItem> _items = const [
-    ProfileInfoItem("Volunteering hours", 900),
-    ProfileInfoItem("Sport hours", 120),
-    ProfileInfoItem("Club hours", 200),
+    ProfileInfoItem("Posts", 900),
+    ProfileInfoItem("Followers", 120),
+    ProfileInfoItem("Following", 200),
   ];
 
   @override
@@ -147,45 +131,6 @@ class _TopPortion extends StatelessWidget {
                 bottomLeft: Radius.circular(50),
                 bottomRight: Radius.circular(50),
               )),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(width: 60, height: 10),
-                Text(
-                  "You're",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 34.w,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-                const SizedBox(width: 10, height: 10),
-                DefaultTextStyle(
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 34.w,
-                      fontWeight: FontWeight.bold
-                  ),
-                  child: AnimatedTextKit(
-                    repeatForever: true,
-                    animatedTexts: [
-                      RotateAnimatedText('AWESOME'),
-                      RotateAnimatedText('GENIUS'),
-                      RotateAnimatedText('DIFFERENT'),
-                    ],
-                    onTap: () {
-                      print(user!.uid);
-                      print(user!.email.toString());
-                      print(user!.displayName.toString());
-                      print(user!.photoURL.toString());
-                      print(user!.phoneNumber.toString());
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
