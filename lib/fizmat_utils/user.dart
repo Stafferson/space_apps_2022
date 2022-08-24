@@ -8,7 +8,7 @@ class UserFiz {
   UserFiz();
 
   UserFiz.set(
-      this.name, this.email, this.fcmToken, this.photoURL, this.forumCount) {}
+      this.name, this.email, this.fcmToken, this.photoURL, this.forumCount);
 
   String? getName() {
     return name;
