@@ -1,3 +1,4 @@
+import 'package:animate_icons/animate_icons.dart';
 import 'package:fizmat_app_flutter/fizmat_utils/schedule.dart';
 import 'package:fizmat_app_flutter/widgets/schedule_day_element_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 final List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+AnimateIconController _controller = AnimateIconController();
 
 class _SchedulePageState extends State<SchedulePage> {
 
@@ -128,7 +130,7 @@ class _SchedulePageState extends State<SchedulePage> {
     );
   }
 
-  AppBar appbar_builder() {
+  /*AppBar appbar_builder() {
     return AppBar(
       title: Padding(
         padding: EdgeInsets.only(
@@ -141,6 +143,58 @@ class _SchedulePageState extends State<SchedulePage> {
                 fontSize: 34.w,
                 fontWeight: FontWeight.bold)),
       ),
+      backgroundColor: Color(0xff121421),
+      elevation: 0,
+    );
+  }*/
+
+  AppBar appbar_builder() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      title: Padding(
+        padding: EdgeInsets.only(
+          left: 14.w,
+          top: 16.h,
+        ),
+        child: Hero(
+          tag: "Schedule",
+          child: Text("Schedule",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 34.w,
+                  fontWeight: FontWeight.bold)
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+            top: 16.h,
+          ),
+          child: AnimateIcons(
+            startIcon: Icons.refresh_rounded,
+            endIcon: Icons.refresh_rounded,
+            size: 28.0,
+            // add this tooltip for the start icon
+            startTooltip: 'Icons.add_circle',
+            // add this tooltip for the end icon
+            endTooltip: 'Icons.add_circle_outline',
+            controller: _controller,
+            onStartIconPress: () {
+              setState(() {});
+              return true;
+            },
+            onEndIconPress: () {
+              setState(() {});
+              return true;
+            },
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
+            duration: Duration(milliseconds: 500),
+            clockwise: true,
+          ),
+        ),
+      ],
       backgroundColor: Color(0xff121421),
       elevation: 0,
     );

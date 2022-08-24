@@ -17,6 +17,9 @@ import 'package:get/get.dart';
 import 'package:shaky_animated_listview/animators/grid_animator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../icons.dart';
+import '../widgets/svg_asset.dart';
+
 class ClassChoosePage extends StatefulWidget {
   const ClassChoosePage({
     Key? key,
@@ -42,16 +45,68 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
       appBar: appbar_builder(),
       backgroundColor: Color(0xff121421),
       body: SafeArea(
-        child: ListView(
-          physics: BouncingScrollPhysics(),
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: class_list_builder(),
-            )
+            ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: 66.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+                  child: class_list_builder(),
+                ),
+              ],
+            ),
+            //not_app_bar(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget not_app_bar() {
+    return  Align(alignment: Alignment.topCenter,
+        child: Container(
+          color:  Color(0xff121421),
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 22.w,
+                right: 22.w,
+                top: 20.h,
+                bottom: 10.h
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(360),
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 35.w,
+                      width: 35.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(360),
+                      ),
+                      child: Center(
+                        child: SvgAsset(
+                          assetName: AssetName.back,
+                          height: 20.w,
+                          width: 20.w,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
     );
   }
 
@@ -155,8 +210,6 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
         ),
       ),
       backgroundColor: Color(0xff121421),
-      elevation: 0,
-
       actions: <Widget>[
         Padding(
           padding: EdgeInsets.only(

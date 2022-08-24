@@ -33,7 +33,7 @@ class _ClassInfoPageState extends State<ClassInfoPage> {
             ListView(
               physics: BouncingScrollPhysics(),
               children: [
-                InkWell(
+                /*InkWell(
                   borderRadius: BorderRadius.circular(360),
                   onTap: onBackIconTapped,
                   child: Container(
@@ -50,12 +50,55 @@ class _ClassInfoPageState extends State<ClassInfoPage> {
                       ),
                     ),
                   ),
-                ),
+                ),*/
+                not_app_bar(),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget not_app_bar() {
+    return  Align(alignment: Alignment.topCenter,
+        child: Container(
+          color:  Color(0xff121421),
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 22.w,
+                right: 22.w,
+                top: 20.h,
+                bottom: 10.h
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(360),
+                    onTap: onBackIconTapped,
+                    child: Container(
+                      height: 35.w,
+                      width: 35.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(360),
+                      ),
+                      child: Center(
+                        child: SvgAsset(
+                          assetName: AssetName.back,
+                          height: 20.w,
+                          width: 20.w,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
     );
   }
 

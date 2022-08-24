@@ -26,8 +26,6 @@ class DiscoverPage extends StatefulWidget {
   State<DiscoverPage> createState() => _DiscoverPageState();
 }
 
-List<List<String>> news = [];
-
 AnimateIconController _controller = AnimateIconController();
 
 class _DiscoverPageState extends State<DiscoverPage> {
@@ -120,12 +118,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  Future<List<List<String>>> load_last_news() async {
-    news = await News.get_last_3_news();
-
-    return news;
-  }
-
   Future<void> onSearchIconTapped() async {
     //print("here");
     DatabaseReference ref = FirebaseDatabase.instance.ref();
@@ -138,10 +130,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
     });
   }
 
-  onLastNewsTapped(int index1) {
+  onLastNewsTapped(int index1, List<List<String>> _snapshot) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[0][index].toString()), transition: Transition.rightToLeft);
-      Get.to(()=> DetailPage(title: news[1][index1].toString(), url: news[0][index1].toString(), index: index1,), transition: Transition.rightToLeft);
+      Get.to(()=> DetailPage(title: _snapshot[1][index1].toString(), url: _snapshot[0][index1].toString(), description: _snapshot[2], index: index1,), transition: Transition.rightToLeft);
     });
   }
 
@@ -149,7 +141,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     return SizedBox(
       height: 176.w,
       child: FutureBuilder<List<List<String>>>(
-          future: load_last_news(),
+          future: News.get_last_3_news(),
           builder: (context, snapshot) {
             Widget _child;
             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
@@ -183,7 +175,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         tag: (index - 1).toString(),
                         title: "$title...",
                         subtitle: "$subtitle...",
-                        onTap: () => onLastNewsTapped(index - 1),
+                        onTap: () => onLastNewsTapped(index - 1, snapshot.data!),
                       );
                     }
 
@@ -415,7 +407,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               return true;
             },
             onEndIconPress: () {
-              print("Clicked on Add Icon");
+              setState(() {});
               return true;
             },
             startIconColor: Colors.white,

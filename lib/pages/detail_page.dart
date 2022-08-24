@@ -14,18 +14,18 @@ class DetailPage extends StatefulWidget {
   final String? title;
   final String? url;
   final int? index;
+  final List<String>? description;
   const DetailPage(
       {Key? key,
         required this.title,
         required this.url,
-        required this.index
+        required this.index,
+        this.description
       }) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
 }
-
-List<List<String>> news = [];
 
 class _DetailPageState extends State<DetailPage> {
   bool? isHeartIconTapped = false;
@@ -44,7 +44,7 @@ class _DetailPageState extends State<DetailPage> {
                   height: 66.h,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 28.w),
+                  padding: EdgeInsets.only(left: 18.w, right: 18.w),
                   child: Material(
                     color: Colors.transparent,
                     child: Hero(
@@ -61,13 +61,11 @@ class _DetailPageState extends State<DetailPage> {
                     )
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
+                SizedBox(height: 10.h),
                 Padding(
                   padding: EdgeInsets.only(left: 28.w),
                   child: FutureBuilder<List<List<String>>>(
-                    future: load_news_info(widget.url),
+                    future: News.get_infonews_url(widget.url.toString()),
                     builder: (context, snapshot) {
                       Widget _child;
                       if (snapshot.hasData) {
@@ -102,7 +100,7 @@ class _DetailPageState extends State<DetailPage> {
                 SizedBox(
                   height: 280.w,
                   child: FutureBuilder<List<List<String>>>(
-                      future: load_news_info(widget.url.toString()),
+                      future: News.get_infonews_url(widget.url.toString()),
                       builder: (context, snapshot) {
                         Widget _child;
                         if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
@@ -151,7 +149,7 @@ class _DetailPageState extends State<DetailPage> {
                   )
                 ),
                 SizedBox(height: 32.h),
-                Padding(
+                /*Padding(
                   padding: EdgeInsets.only(left: 28.w),
                   child: Row(
                     children: [
@@ -184,14 +182,14 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 32.h),
+                ),*/
+                //SizedBox(height: 32.h),
                 FutureBuilder<List<List<String>>> (
-                    future: load_news_info(widget.url!),
+                    future: News.get_infonews_url(widget.url.toString()),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                         return Padding(
-                          padding: EdgeInsets.only(left: 28.w, right: 28.w, bottom: 80.h),
+                          padding: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 80.h),
                           child: Linkify(
                             text: snapshot.data![1].reduce((value, element) => value + "\n" + "\n" + element),
                             style: TextStyle(
@@ -221,122 +219,123 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
 
-            Align(alignment: Alignment.topCenter,
-            child: Container(
-              color:  Color(0xff121421),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 22.w,
-                  right: 22.w,
-                  top: 20.h,
-                  bottom: 10.h
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        borderRadius: BorderRadius.circular(360),
-                        onTap: onBackIconTapped,
-                        child: Container(
-                          height: 35.w,
-                          width: 35.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(360),
-                          ),
-                          child: Center(
-                            child: SvgAsset(
-                              assetName: AssetName.back,
-                              height: 20.w,
-                              width: 20.w,
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(360),
-                        onTap: onHeartIconTapped,
-                        child: Container(
-                          height: 35.w,
-                          width: 35.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(360),
-                          ),
-                          child: Center(
-                            child: SvgAsset(
-                              assetName: AssetName.heart,
-                              height: 24.w,
-                              width: 24.w,
-                              color: isHeartIconTapped! ? Colors.red: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-            ),
+            not_app_bar(),
 
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 87.h,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  gradient: LinearGradient(
-                    stops: [0,1],
-                    colors: [
-                      Color(0xff121421),
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter
-                  )
-                ),
-                child: Center(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(16),
-                      onTap: onReadOnlineButtonPressed,
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          color: Color(0xff4A80F0),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Container(
-                          height: 56.h,
-                          width: 319.w,
-                          child: Center(
-                              child: Text(
-                                "Read online",
-                                style: TextStyle(
-                                    fontSize: 16.w,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-
+            read_online(),
           ],
         ),
       ),
     );
   }
 
-  Future<List<List<String>>> load_news_info(url) async {
-    news = await News.get_infonews_url(url);
-    return news;
+  Widget not_app_bar() {
+    return  Align(alignment: Alignment.topCenter,
+        child: Container(
+          color:  Color(0xff121421),
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 22.w,
+                right: 22.w,
+                top: 20.h,
+                bottom: 10.h
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(360),
+                    onTap: onBackIconTapped,
+                    child: Container(
+                      height: 35.w,
+                      width: 35.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(360),
+                      ),
+                      child: Center(
+                        child: SvgAsset(
+                          assetName: AssetName.back,
+                          height: 20.w,
+                          width: 20.w,
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(360),
+                    onTap: onHeartIconTapped,
+                    child: Container(
+                      height: 35.w,
+                      width: 35.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(360),
+                      ),
+                      child: Center(
+                        child: SvgAsset(
+                          assetName: AssetName.heart,
+                          height: 24.w,
+                          width: 24.w,
+                          color: isHeartIconTapped! ? Colors.red: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+    );
+  }
+
+  Widget read_online() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: 87.h,
+        decoration: const BoxDecoration(
+            color: Colors.black,
+            gradient: LinearGradient(
+                stops: [0,1],
+                colors: [
+                  Color(0xff121421),
+                  Colors.transparent,
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter
+            )
+        ),
+        child: Center(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: onReadOnlineButtonPressed,
+              child: Ink(
+                decoration: BoxDecoration(
+                  color: Color(0xff4A80F0),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  height: 56.h,
+                  width: 319.w,
+                  child: Center(
+                      child: Text(
+                        "Read online",
+                        style: TextStyle(
+                            fontSize: 16.w,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      )
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> onReadOnlineButtonPressed() async{
