@@ -25,8 +25,8 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMixin{
-
+class _RegisterPageState extends State<RegisterPage>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -72,40 +72,43 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                     isRepeatingAnimation: true,
                     repeatForever: true,
                     animatedTexts: [
-                      TypewriterAnimatedText('Discover',
-                          speed: Duration(milliseconds: 100),
-                          textAlign: TextAlign.center,
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 48.w,
-                              fontWeight: FontWeight.bold),
+                      TypewriterAnimatedText(
+                        'Discover',
+                        speed: Duration(milliseconds: 100),
+                        textAlign: TextAlign.center,
+                        textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 48.w,
+                            fontWeight: FontWeight.bold),
                       ),
-                      TypewriterAnimatedText('Communicate',
-                          speed: Duration(milliseconds: 100),
-                          textAlign: TextAlign.center,
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 48.w,
-                              fontWeight: FontWeight.bold),
+                      TypewriterAnimatedText(
+                        'Communicate',
+                        speed: Duration(milliseconds: 100),
+                        textAlign: TextAlign.center,
+                        textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 48.w,
+                            fontWeight: FontWeight.bold),
                       ),
-                      TypewriterAnimatedText('Vote',
-                          speed: Duration(milliseconds: 100),
-                          textAlign: TextAlign.center,
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 48.w,
-                              fontWeight: FontWeight.bold),
+                      TypewriterAnimatedText(
+                        'Vote',
+                        speed: Duration(milliseconds: 100),
+                        textAlign: TextAlign.center,
+                        textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 48.w,
+                            fontWeight: FontWeight.bold),
                       ),
-                      TypewriterAnimatedText('Share',
-                          speed: Duration(milliseconds: 100),
-                          textAlign: TextAlign.center,
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 48.w,
-                              fontWeight: FontWeight.bold),
+                      TypewriterAnimatedText(
+                        'Share',
+                        speed: Duration(milliseconds: 100),
+                        textAlign: TextAlign.center,
+                        textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 48.w,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ]
-                ),
+                    ]),
               ),
               SizedBox(
                 height: 320.h,
@@ -118,9 +121,23 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                     onPressed: () async {
                       DatabaseManager dat = DatabaseManager();
                       UserCredential? credential = await signInWithGoogle();
-                      if (credential == null) return;
+                      if (credential == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Используйте fizmat аккаунт"),
+                          backgroundColor: Colors.white,
+                          behavior: SnackBarBehavior.floating,
+                        ));
+                        return;
+                      }
                       User? us = credential.user;
-                      if (us == null) return;
+                      if (us == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Произошла ошибка"),
+                          backgroundColor: Colors.white,
+                          behavior: SnackBarBehavior.floating,
+                        ));
+                        return;
+                      }
                       UserFiz user = UserFiz();
                       user.setEmail(us.email);
                       user.setName(us.displayName);
@@ -128,7 +145,13 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                       final fcmT = await FirebaseMessaging.instance.getToken();
                       user.setFcmToken(fcmT);
                       dat.addUser(user);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Успешно"),
+                        backgroundColor: Colors.white,
+                        behavior: SnackBarBehavior.floating,
+                      ));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const HomePage()));
                     },
                   ),
                 ),
@@ -145,6 +168,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     if (googleUser == null || !googleUser.email.contains("@fizmat.kz")) {
+      GoogleSignIn().signOut();
       return null;
     }
 
@@ -175,13 +199,15 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     final fcmT = await FirebaseMessaging.instance.getToken();
     user.setFcmToken(fcmT);
     dat.addUser(user);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   void go_main() {
     //Get.to(()=> DiscoverPage());
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomePage()));
     });
   }
 }

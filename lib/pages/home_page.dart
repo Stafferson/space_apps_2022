@@ -10,7 +10,7 @@ import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 import '../fizmat_utils/animated_indexed_stack.dart';
 
 class HomePage extends StatefulWidget {
-  const   HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           enableFeedback: true,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: SvgAsset(assetName: AssetName.discover),
+              icon: const SvgAsset(assetName: AssetName.discover),
               label: '',
               tooltip: 'Discover',
               activeIcon: Container(
@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                        color: Color(0xff4A80F0).withOpacity(0.3),
-                        offset: Offset(0, 4),
+                        color: const Color(0xff4A80F0).withOpacity(0.3),
+                        offset: const Offset(0, 4),
                         blurRadius: 20),
                   ],
                 ),
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: SvgAsset(assetName: AssetName.schedule),
+              icon: const SvgAsset(assetName: AssetName.schedule),
               label: '',
               tooltip: '',
               activeIcon: Container(
@@ -81,8 +81,8 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                        color: Color(0xff4A80F0).withOpacity(0.3),
-                        offset: Offset(0, 4),
+                        color: const Color(0xff4A80F0).withOpacity(0.3),
+                        offset: const Offset(0, 4),
                         blurRadius: 20),
                   ],
                 ),
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: SvgAsset(assetName: AssetName.profile),
+              icon: const SvgAsset(assetName: AssetName.profile),
               label: '',
               tooltip: 'Profile',
               activeIcon: Container(
@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                        color: Color(0xff4A80F0).withOpacity(0.3),
-                        offset: Offset(0, 4),
+                        color: const Color(0xff4A80F0).withOpacity(0.3),
+                        offset: const Offset(0, 4),
                         blurRadius: 20),
                   ],
                 ),
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.amber[800],
           onTap: _onItemTapped,
-          backgroundColor: Color(0xff1C2031),
+          backgroundColor: const Color(0xff1C2031),
         ),
       ),
     );
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         height: 56,
-        color:  Color(0xFF1C2031),
+        color: Color(0xFF1C2031),
         backgroundColor: Color(0xff121421),
         items: icons,
         onTap: (index) {
