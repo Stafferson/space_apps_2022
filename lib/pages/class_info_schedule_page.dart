@@ -86,6 +86,7 @@ class _ClassInfoPageState extends State<ClassInfoPage> {
                 List<List<String>?> schedule = [prefs?.getStringList("${widget.classId}class_monday"), prefs?.getStringList("${widget.classId}class_tuesday"), prefs?.getStringList("${widget.classId}class_wednesday"), prefs?.getStringList("${widget.classId}class_thursday"), prefs?.getStringList("${widget.classId}class_friday")];
                 if (schedule[0] != null) {
                   _child = PageView.builder (
+                    physics: BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 35.0, right: 35.0),

@@ -35,84 +35,82 @@ class _DiscoverPageState extends State<DiscoverPage> {
       appBar: appbar_builder(),
       backgroundColor: Color(0xff121421),
       body: SafeArea(
-        child: AnimationLimiter(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            //physics: const BouncingScrollPhysics(),
-            physics: BouncingScrollPhysics(),
-            children: [
-              /*Padding(
-                padding: EdgeInsets.only(
-                  left: 28.w,
-                  right: 18.w,
-                  top: 16.h,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Discover",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 34.w,
-                            fontWeight: FontWeight.bold)),
-                    InkWell(
-                      borderRadius: BorderRadius.circular(360),
-                      onTap: onSearchIconTapped,
-                      child: Container(
-                        height: 35.w,
-                        width: 35.w,
-                        child: Center(
-                          child: SvgAsset(
-                            assetName: AssetName.search,
-                            height: 24.w,
-                            width: 24.w,
-                          ),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          //physics: const BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
+          children: [
+            /*Padding(
+              padding: EdgeInsets.only(
+                left: 28.w,
+                right: 18.w,
+                top: 16.h,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Discover",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 34.w,
+                          fontWeight: FontWeight.bold)),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(360),
+                    onTap: onSearchIconTapped,
+                    child: Container(
+                      height: 35.w,
+                      width: 35.w,
+                      child: Center(
+                        child: SvgAsset(
+                          assetName: AssetName.search,
+                          height: 24.w,
+                          width: 24.w,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),*/
-              category_boxes_builder(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 28.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Last News",
-                      style: TextStyle(
-                          color: Color(0xff515979),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14.w),
-                    ),
-                    GestureDetector(
-                        onTap: onSeeAllTapped,
-                        child: Text("See All",
-                            style: TextStyle(
-                                color: Color(0xff4A80F0),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.w)))
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SizedBox(height: 14.h,),
-              last_news_builder(),
-              SizedBox(height: 14.h),
-              Padding(
-                padding: EdgeInsets.only(left: 28.w),
-                child: Text(
-                  "Main menu",
-                  style: TextStyle(
-                      color: Color(0xff515979),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14.w),
-                ),
+            ),*/
+            category_boxes_builder(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 28.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Last News",
+                    style: TextStyle(
+                        color: Color(0xff515979),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.w),
+                  ),
+                  GestureDetector(
+                      onTap: onSeeAllTapped,
+                      child: Text("See All",
+                          style: TextStyle(
+                              color: Color(0xff4A80F0),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.w)))
+                ],
               ),
-              SizedBox(height: 14.h),
-              main_menu_builder(),
-            ],
-          ),
+            ),
+            SizedBox(height: 14.h,),
+            last_news_builder(),
+            SizedBox(height: 14.h),
+            Padding(
+              padding: EdgeInsets.only(left: 28.w),
+              child: Text(
+                "Main menu",
+                style: TextStyle(
+                    color: Color(0xff515979),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.w),
+              ),
+            ),
+            SizedBox(height: 14.h),
+            main_menu_builder(),
+          ],
         ),
       ),
     );

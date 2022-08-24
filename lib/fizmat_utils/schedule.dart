@@ -72,6 +72,49 @@ class Schedule {
     }
   }
 
+  static Future<List<List<String>>> get_class_timeline() async {
+
+    final prefs = await SharedPreferences.getInstance();
+    String? _class = prefs.getString('class');
+    print("class: {$_class}");
+    final ss = await gsheets.spreadsheet(_spreadsheetId);
+
+    var sheet;
+
+    if (_class != null) {
+      sheet = await ss.worksheetByTitle(_class);
+      print("sheet title: " + sheet.title);
+      print(sheet != null);
+      if (sheet != null) {
+        arr0 = await sheet.values.column(4, fromRow: 5);
+        arr1 = await sheet.values.column(5, fromRow: 5);
+        arr2 = await sheet.values.column(6, fromRow: 5);
+        arr3 = await sheet!.values.column(7, fromRow: 5);
+        arr4 = await sheet.values.column(8, fromRow: 5);
+        //make sure that everything is a part of user needed schedule
+        arr0.removeWhere((element) => element.length <= 5);
+        arr1.removeWhere((element) => element.length <= 5);
+        arr2.removeWhere((element) => element.length <= 5);
+        arr3.removeWhere((element) => element.length <= 5);
+        arr4.removeWhere((element) => element.length <= 5);
+
+        prefs.setStringList("class_monday", arr0);
+        prefs.setStringList("class_tuesday", arr1);
+        prefs.setStringList("class_wednesday", arr2);
+        prefs.setStringList("class_thursday", arr3);
+        prefs.setStringList("class_friday", arr4);
+
+        return [arr0, arr1, arr2, arr3, arr4];
+      } else {
+        print("1");
+        return [["1"]]; // no such class in google sheets
+      }
+    } else {
+      print("2");
+      return [["0"]]; // no class saved
+    }
+  }
+
   static Future<List<List<String>>> get_saved_class_schedule() async {
 
     String? _class = prefs!.getString('class');

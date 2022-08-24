@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../main.dart';
 
@@ -67,6 +69,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   _child = const Text("No such class has been found");
                 } else {
                   _child = PageView.builder (
+                    physics: BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       print("SCHEDULE UPDATED");
                       return Padding(
@@ -132,6 +135,53 @@ class _SchedulePageState extends State<SchedulePage> {
       backgroundColor: Color(0xff121421),
       elevation: 0,
     );
+  }*/
+
+  /*@override
+  void dispose() {
+    pageview_controller.dispose();
+    super.dispose();
+  }*/
+
+  /*@override
+  void didChangeDependencies() {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+
+      int day;
+      switch(DateFormat('EEEE').format(DateTime.now())){
+        case "Monday": {
+          day = 0;
+          break;
+        }
+        case "Tuesday": {
+          day = 1;
+          break;
+        }
+        case "Wednesday": {
+          day = 2;
+          break;
+        }
+        case "Thursday": {
+          day = 3;
+          break;
+        }
+        case "Friday": {
+          day = 4;
+          break;
+        }
+        default: {
+          day = 0;
+          break;
+        }
+      };
+
+      if (pageview_controller.hasClients)
+        pageview_controller.jumpToPage(day);
+
+    });
+
+    super.didChangeDependencies();
   }*/
 
   AppBar appbar_builder() {
