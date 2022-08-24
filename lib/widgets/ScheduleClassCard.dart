@@ -16,8 +16,10 @@ class ScheduleClassCard extends StatelessWidget {
   final double? borderRadius;
   final Widget? icon;
   final Function()? onTap;
+  final String? tag;
   const ScheduleClassCard(
       {Key? key,
+        this.tag,
         this.title,
         this.subtitle,
         this.gradientStartColor,
@@ -83,12 +85,19 @@ class ScheduleClassCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      title!,
-                      style: TextStyle(
-                          fontSize: 18.w,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    Container(
+                      child: Hero(
+                        tag: tag!,
+                        child: DefaultTextStyle(
+                          style: TextStyle(
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          child: Text(
+                            title!,
+                          ),
+                        ),
+                      ),
                     ),
                     Row(
                       children: [

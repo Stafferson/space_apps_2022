@@ -6,15 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import 'package:fizmat_app_flutter/pages/detail_page.dart';
-import 'package:fizmat_app_flutter/widgets/category_boxes.dart';
-import 'package:fizmat_app_flutter/icons.dart';
-import 'package:fizmat_app_flutter/widgets/discover_card.dart';
-import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
-import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:gsheets/gsheets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -31,11 +22,6 @@ final List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday
 AnimateIconController _controller = AnimateIconController();
 
 class _SchedulePageState extends State<SchedulePage> {
-
-  @override
-  void InitState() async {
-    print("INITITIIT");
-  }
 
   @override
   Widget build(BuildContext context) {

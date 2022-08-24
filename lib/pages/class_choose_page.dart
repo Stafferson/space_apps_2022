@@ -51,10 +51,10 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
               physics: BouncingScrollPhysics(),
               children: [
                 SizedBox(
-                  height: 66.h,
+                  height: 16.h,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+                  padding: EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 10.h),
                   child: class_list_builder(),
                 ),
               ],
@@ -151,6 +151,7 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
                           duration: const Duration(milliseconds: 500),
                           child: FadeInAnimation(
                             child: ScheduleClassCard(
+                              tag: "class${snapshot.data![index]}",
                               onTap: () {
                                 on_class_tap(snapshot.data![index]);
                               },
@@ -168,9 +169,13 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
                   ),
                 );
               } else {
-                _child = const SpinKitDoubleBounce(
-                  color: Colors.white,
-                  size: 50.0,
+                _child = Container(
+                  child: const Center(
+                    child: SpinKitDoubleBounce(
+                      color: Colors.white,
+                      size: 50.0,
+                    ),
+                  ),
                 );
               }
               return AnimatedSwitcher(
@@ -193,7 +198,7 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
         ),
         child: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.to(()=> HomePage()),
+          onPressed: () => Get.back(),
         ),
       ),
       centerTitle: true,

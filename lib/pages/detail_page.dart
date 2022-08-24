@@ -1,3 +1,5 @@
+import 'package:animate_icons/animate_icons.dart';
+import 'package:fizmat_app_flutter/pages/discover_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -27,6 +29,8 @@ class DetailPage extends StatefulWidget {
   _DetailPageState createState() => _DetailPageState();
 }
 
+AnimateIconController _controller = AnimateIconController();
+
 class _DetailPageState extends State<DetailPage> {
   bool? isHeartIconTapped = false;
 
@@ -34,6 +38,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff121421),
+      appBar: appbar_builder(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -41,7 +46,7 @@ class _DetailPageState extends State<DetailPage> {
               physics: BouncingScrollPhysics(),
               children: [
                 SizedBox(
-                  height: 66.h,
+                  height: 16.h,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 18.w, right: 18.w),
@@ -218,9 +223,6 @@ class _DetailPageState extends State<DetailPage> {
                 )
               ],
             ),
-
-            not_app_bar(),
-
             read_online(),
           ],
         ),
@@ -228,7 +230,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget not_app_bar() {
+  /*Widget not_app_bar() {
     return  Align(alignment: Alignment.topCenter,
         child: Container(
           color:  Color(0xff121421),
@@ -287,7 +289,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
         )
     );
-  }
+  }*/
 
   Widget read_online() {
     return Align(
@@ -362,5 +364,64 @@ class _DetailPageState extends State<DetailPage> {
       ));
     }
     //await launchUrl(Uri.parse(await link.url.replaceAll('http', 'https')));
+  }
+
+  AppBar appbar_builder() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      toolbarHeight: 60,
+      leading: Padding(
+        padding: EdgeInsets.only(
+          top: 10.h,
+        ),
+        child: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Get.back(),
+        ),
+      ),
+      centerTitle: true,
+      title: Padding(
+        padding: EdgeInsets.only(
+          left: 14.w,
+          top: 10.h,
+        ),
+        child: Text("",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 34.w,
+                fontWeight: FontWeight.bold)
+        ),
+      ),
+      backgroundColor: Color(0xff121421),
+      actions: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+            top: 10.h,
+          ),
+          child: AnimateIcons(
+            startIcon: Icons.refresh_rounded,
+            endIcon: Icons.refresh_rounded,
+            size: 28.0,
+            // add this tooltip for the start icon
+            startTooltip: 'Icons.add_circle',
+            // add this tooltip for the end icon
+            endTooltip: 'Icons.add_circle_outline',
+            controller: _controller,
+            onStartIconPress: () {
+              setState(() {});
+              return true;
+            },
+            onEndIconPress: () {
+              setState(() {});
+              return true;
+            },
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
+            duration: Duration(milliseconds: 500),
+            clockwise: true,
+          ),
+        ),
+      ],
+    );
   }
 }
