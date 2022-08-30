@@ -2,6 +2,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fizmat_app_flutter/pages/class_choose_page.dart';
 import 'package:fizmat_app_flutter/pages/news_page.dart';
+import 'package:fizmat_app_flutter/pages/request_page.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 ],
               ),
             ),
-            SizedBox(height: 14.h,),
+            SizedBox(
+              height: 14.h,
+            ),
             last_news_builder(),
             SizedBox(height: 14.h),
             Padding(
@@ -123,16 +126,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
     await ref.set({
       "name": "Johsan",
       "age": 189,
-      "addressd": {
-        "line1": "100 Mountain View"
-      }
+      "addressd": {"line1": "100 Mountain View"}
     });
   }
 
   onLastNewsTapped(int index1, List<List<String>> _snapshot) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[0][index].toString()), transition: Transition.rightToLeft);
-      Get.to(()=> DetailPage(title: _snapshot[1][index1].toString(), url: _snapshot[0][index1].toString(), description: _snapshot[2], index: index1,), transition: Transition.rightToLeft);
+      Get.to(
+          () => DetailPage(
+                title: _snapshot[1][index1].toString(),
+                url: _snapshot[0][index1].toString(),
+                description: _snapshot[2],
+                index: index1,
+              ),
+          transition: Transition.rightToLeft);
     });
   }
 
@@ -143,7 +151,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
           future: News.get_last_3_news(),
           builder: (context, snapshot) {
             Widget _child;
-            if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
               _child = ListView.separated(
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
@@ -157,15 +166,14 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       String subtitle = "";
                       String title = "";
                       if (snapshot.data![1][index - 1].length > 29) {
-                        title = snapshot.data![1][index - 1].substring(
-                            0, 30);
+                        title = snapshot.data![1][index - 1].substring(0, 30);
                       } else {
                         title = snapshot.data![1][index - 1];
                       }
 
                       if (snapshot.data![2][index - 1].length > 41) {
-                        subtitle = snapshot.data![2][index - 1]
-                            .substring(0, 42);
+                        subtitle =
+                            snapshot.data![2][index - 1].substring(0, 42);
                       } else {
                         subtitle = snapshot.data![2][index - 1];
                       }
@@ -174,7 +182,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         tag: (index - 1).toString(),
                         title: "$title...",
                         subtitle: "$subtitle...",
-                        onTap: () => onLastNewsTapped(index - 1, snapshot.data!),
+                        onTap: () =>
+                            onLastNewsTapped(index - 1, snapshot.data!),
                       );
                     }
 
@@ -191,33 +200,24 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     return SizedBox(
                       width: 20.w,
                     );
-                  }
-              );
-            }
-            else {
+                  });
+            } else {
               _child = ListView(
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
                 children: <Widget>[
-
                   SizedBox(
                     width: 36.w,
                   ),
-
                   DiscoverCardShimmer(),
-
                   SizedBox(
                     width: 20.w,
                   ),
-
                   DiscoverCardShimmer(),
-
                   SizedBox(
                     width: 20.w,
                   ),
-
                   DiscoverCardShimmer(),
-
                   SizedBox(
                     width: 36.w,
                   ),
@@ -229,8 +229,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               duration: Duration(milliseconds: 250),
               child: _child,
             );
-          }
-      ),
+          }),
     );
   }
 
@@ -253,7 +252,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
             onPressed: (value) => print(value),
           ),
           CategoryBoxes(
-            text: "Credits: Tair Kareneyev 11E, Sanzhar Abdrakhim 11A, Alibi Amanzholov 11A",
+            text:
+                "Credits: Tair Kareneyev 11E, Sanzhar Abdrakhim 11A, Alibi Amanzholov 11A",
             onPressed: (value) => print(value),
           ),
         ],
@@ -263,13 +263,18 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   Widget main_menu_builder() {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: 28.w),
-      child: GridView(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 19.w, mainAxisExtent:  125.w, mainAxisSpacing: 19.w),
+      padding: EdgeInsets.symmetric(horizontal: 28.w),
+      child: GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 19.w,
+            mainAxisExtent: 125.w,
+            mainAxisSpacing: 19.w),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         children: [
           DiscoverSmallCard(
-            onTap: (){
+            onTap: () {
               on_lesson_schedule_tapped();
             },
             title: "Lessons\nSchedule",
@@ -281,7 +286,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
           ),
           DiscoverSmallCard(
-              onTap: (){
+              onTap: () {
                 on_useful_links_tapped();
               },
               title: "Useful\nLinks",
@@ -290,10 +295,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
               icon: const Icon(
                 Icons.forum_rounded,
                 color: Colors.white,
-              )
-          ),
+              )),
           DiscoverSmallCard(
-            onTap: (){
+            onTap: () {
               on_school_clubs_tapped();
             },
             title: "School\nClubs",
@@ -305,28 +309,28 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
           ),
           DiscoverSmallCard(
-            onTap: (){
+            onTap: () {
               on_school_staff_news_tapped();
             },
             title: "School\nStaff's news",
-            icon:  const Icon(
+            icon: const Icon(
               Icons.notifications_active_rounded,
               color: Colors.white,
             ),
           ),
-          /*DiscoverSmallCard(
-            onTap: (){
-              on_setting_tapped();
+          DiscoverSmallCard(
+            onTap: () {
+              on_request_page_tapped();
             },
-            title: "Useful\nLinks",
+            title: "Request\nPage",
             gradientStartColor: Color(0xffFC67A7),
             gradientEndColor: Color(0xffF6815B),
-            icon:  const Icon(
+            icon: const Icon(
               Icons.link_rounded,
               color: Colors.white,
             ),
           ),
-          DiscoverSmallCard(
+          /*DiscoverSmallCard(
             onTap: (){
               on_setting_tapped();
             },
@@ -339,7 +343,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
           ),*/
         ],
-
       ),
     );
   }
@@ -359,8 +362,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 34.w,
-                  fontWeight: FontWeight.bold)
-          ),
+                  fontWeight: FontWeight.bold)),
         ),
       ),
       actions: <Widget>[
@@ -448,7 +450,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-
   void onSeeAllTapped() {
     //Get.to(()=> NewsPage());
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -462,7 +463,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   void on_lesson_schedule_tapped() {
-    Get.to(()=> ClassChoosePage());
+    Get.to(() => ClassChoosePage());
+  }
+
+  void on_request_page_tapped() {
+    Get.to(() => const RequestPage());
   }
 
   void on_school_clubs_tapped() {
