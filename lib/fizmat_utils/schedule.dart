@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +27,13 @@ List<String> arr1 = [];
 List<String> arr2 = [];
 List<String> arr3 = [];
 List<String> arr4 = [];
+List<String> arr00 = [];
+List<String> arr11 = [];
+List<String> arr22 = [];
+List<String> arr33 = [];
+List<String> arr44 = [];
+
+FirebaseFirestore db = FirebaseFirestore.instance;
 
 class Schedule {
 
@@ -42,6 +50,7 @@ class Schedule {
       sheet = await ss.worksheetByTitle(_class);
       print("sheet title: " + sheet.title);
       print(sheet != null);
+
       if (sheet != null) {
         arr0 = await sheet.values.column(4, fromRow: 5);
         arr1 = await sheet.values.column(5, fromRow: 5);
@@ -55,13 +64,87 @@ class Schedule {
         arr3.removeWhere((element) => element.length <= 5);
         arr4.removeWhere((element) => element.length <= 5);
 
+        db.collection("schedule_timeline").get().then(
+              (res) {
+            //res.docs.elementAt(1).data().values.forEach((element) {
+            //  arr00.add(element);
+            //});
+            arr00 = List<String>.from(res.docs.elementAt(1).data().values.toList());
+            //res.docs.elementAt(3).data().values.forEach((element) {
+            //  arr11.add(element);
+            //});
+            arr11 = List<String>.from(res.docs.elementAt(3).data().values.toList());
+            //res.docs.elementAt(4).data().values.forEach((element) {
+            //  arr22.add(element);
+            //});
+            arr22 = List<String>.from(res.docs.elementAt(4).data().values.toList());
+            //res.docs.elementAt(2).data().values.forEach((element) {
+            //  arr33.add(element);
+            //});
+            arr33 = List<String>.from(res.docs.elementAt(2).data().values.toList());
+            //res.docs.elementAt(0).data().values.forEach((element) {
+            //  arr44.add(element);
+            //});
+            arr44 = List<String>.from(res.docs.elementAt(0).data().values.toList());
+          },
+          onError: (e) => print("Error completing: $e"),
+        );
+
+        if (arr0 == null || arr0.length == 0) {
+          arr0 = ["", "", "", "", "", "", "", "", "", ""]; // no such class in google sheets
+        }
+        if (arr1 == null || arr1.length == 0) {
+          arr1 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr2 == null || arr2.length == 0) {
+          arr2 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr3 == null || arr3.length == 0) {
+          arr3 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr4 == null || arr4.length == 0) {
+          arr4 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr00 == null || arr00.length == 0) {
+          arr00 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr11 == null || arr11.length == 0) {
+          arr11 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr22 == null || arr22.length == 0) {
+          arr22 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr33 == null || arr33.length == 0) {
+          arr33 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+        if (arr44 == null || arr44.length == 0) {
+          arr44 = ["", "", "", "", "", "", "", "", "", ""];
+        }
+
+        print("SCHEDULE AND TIMELINE");
+        print(arr00);
+        print(arr11);
+        print(arr22);
+        print(arr33);
+        print(arr44);
+        print(arr0);
+        print(arr1);
+        print(arr2);
+        print(arr3);
+        print(arr4);
+
         prefs.setStringList("class_monday", arr0);
         prefs.setStringList("class_tuesday", arr1);
         prefs.setStringList("class_wednesday", arr2);
         prefs.setStringList("class_thursday", arr3);
         prefs.setStringList("class_friday", arr4);
+        prefs.setStringList("class_monday_schedule", arr00);
+        prefs.setStringList("class_tuesday_schedule", arr11);
+        prefs.setStringList("class_wednesday_schedule", arr22);
+        prefs.setStringList("class_thursday_schedule", arr33);
+        prefs.setStringList("class_friday_schedule", arr44);
 
-        return [arr0, arr1, arr2, arr3, arr4];
+        return [arr0, arr1, arr2, arr3, arr4, arr00, arr11, arr22, arr33, arr44];
       } else {
         print("1");
         return [["1"]]; // no such class in google sheets
@@ -69,6 +152,117 @@ class Schedule {
     } else {
       print("2");
       return [["0"]]; // no class saved
+    }
+  }
+
+  static Future<List<List<String>>> get_class_schedule_by_id(String _class) async {
+
+    final prefs = await SharedPreferences.getInstance();
+    final ss = await gsheets.spreadsheet(_spreadsheetId);
+    var sheet;
+
+    sheet = await ss.worksheetByTitle(_class);
+    print("sheet title: " + sheet.title);
+    print(sheet != null);
+
+    if (sheet != null) {
+      arr0 = await sheet.values.column(4, fromRow: 5);
+      arr1 = await sheet.values.column(5, fromRow: 5);
+      arr2 = await sheet.values.column(6, fromRow: 5);
+      arr3 = await sheet!.values.column(7, fromRow: 5);
+      arr4 = await sheet.values.column(8, fromRow: 5);
+      //make sure that everything is a part of user needed schedule
+      arr0.removeWhere((element) => element.length <= 5);
+      arr1.removeWhere((element) => element.length <= 5);
+      arr2.removeWhere((element) => element.length <= 5);
+      arr3.removeWhere((element) => element.length <= 5);
+      arr4.removeWhere((element) => element.length <= 5);
+
+      db.collection("schedule_timeline").get().then(
+            (res) {
+          //res.docs.elementAt(1).data().values.forEach((element) {
+          //  arr00.add(element);
+          //});
+          arr00 = List<String>.from(res.docs.elementAt(1).data().values.toList());
+          //res.docs.elementAt(3).data().values.forEach((element) {
+          //  arr11.add(element);
+          //});
+          arr11 = List<String>.from(res.docs.elementAt(3).data().values.toList());
+          //res.docs.elementAt(4).data().values.forEach((element) {
+          //  arr22.add(element);
+          //});
+          arr22 = List<String>.from(res.docs.elementAt(4).data().values.toList());
+          //res.docs.elementAt(2).data().values.forEach((element) {
+          //  arr33.add(element);
+          //});
+          arr33 = List<String>.from(res.docs.elementAt(2).data().values.toList());
+          //res.docs.elementAt(0).data().values.forEach((element) {
+          //  arr44.add(element);
+          //});
+          arr44 = List<String>.from(res.docs.elementAt(0).data().values.toList());
+        },
+        onError: (e) => print("Error completing: $e"),
+      );
+
+      print("SCHEDULE AND TIMELINE");
+
+      if (arr0 == null || arr0.length == 0) {
+        arr0 = ["", "", "", "", "", "", "", "", "", ""]; // no such class in google sheets
+      }
+      if (arr1 == null || arr1.length == 0) {
+        arr1 = ["", "", "", "", "", "", "", "", "", ""];
+      }
+      if (arr2 == null || arr2.length == 0) {
+        arr2 = ["", "", "", "", "", "", "", "", "", ""];
+      }
+      if (arr3 == null || arr3.length == 0) {
+        arr3 = ["", "", "", "", "", "", "", "", "", ""];
+      }
+      if (arr4 == null || arr4.length == 0) {
+        arr4 = ["", "", "", "", "", "", "", "", "", ""];
+      }
+      if (arr00 == null || arr00.length == 0) {
+        arr00 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
+      }
+      if (arr11 == null || arr11.length == 0) {
+        arr11 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
+      }
+      if (arr22 == null || arr22.length == 0) {
+        arr22 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
+      }
+      if (arr33 == null || arr33.length == 0) {
+        arr33 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
+      }
+      if (arr44 == null || arr44.length == 0) {
+        arr44 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
+      }
+
+      print(arr0);
+      print(arr1);
+      print(arr2);
+      print(arr3);
+      print(arr4);
+      print(arr00);
+      print(arr11);
+      print(arr22);
+      print(arr33);
+      print(arr44);
+
+      prefs.setStringList("${_class}class_monday", arr0);
+      prefs.setStringList("${_class}class_tuesday", arr1);
+      prefs.setStringList("${_class}class_wednesday", arr2);
+      prefs.setStringList("${_class}class_thursday", arr3);
+      prefs.setStringList("${_class}class_friday", arr4);
+      prefs.setStringList("class_monday_schedule", arr00);
+      prefs.setStringList("class_tuesday_schedule", arr11);
+      prefs.setStringList("class_wednesday_schedule", arr22);
+      prefs.setStringList("class_thursday_schedule", arr33);
+      prefs.setStringList("class_friday_schedule", arr44);
+
+      return [arr0, arr1, arr2, arr3, arr4, arr00, arr11, arr22, arr33, arr44];
+    } else {
+      print("1");
+      return [["1"]]; // no such class in google sheets
     }
   }
 
@@ -153,36 +347,25 @@ class Schedule {
     return arr;
   }
 
-  static Future<List<List<String>>> get_class_schedule_by_id(String _class) async {
+  static Future<List<List<String>>> get_list_all_classes_info() async {
 
-    final prefs = await SharedPreferences.getInstance();
     final ss = await gsheets.spreadsheet(_spreadsheetId);
-    var sheet;
 
-    sheet = await ss.worksheetByTitle(_class);
-    print("sheet title: " + sheet.title);
-    print(sheet != null);
-    if (sheet != null) {
-      arr0 = await sheet.values.column(4, fromRow: 5);
-      arr1 = await sheet.values.column(5, fromRow: 5);
-      arr2 = await sheet.values.column(6, fromRow: 5);
-      arr3 = await sheet!.values.column(7, fromRow: 5);
-      arr4 = await sheet.values.column(8, fromRow: 5);
-      //make sure that everything is a part of user needed schedule
-      arr0.removeWhere((element) => element.length <= 5);
-      arr1.removeWhere((element) => element.length <= 5);
-      arr2.removeWhere((element) => element.length <= 5);
-      arr3.removeWhere((element) => element.length <= 5);
-      arr4.removeWhere((element) => element.length <= 5);
-      prefs.setStringList("${_class}class_monday", arr0);
-      prefs.setStringList("${_class}class_tuesday", arr1);
-      prefs.setStringList("${_class}class_wednesday", arr2);
-      prefs.setStringList("${_class}class_thursday", arr3);
-      prefs.setStringList("${_class}class_friday", arr4);
-      return [arr0, arr1, arr2, arr3, arr4];
-    } else {
-      print("1");
-      return [["1"]]; // no such class in google sheets
+    List<String> arr0 = [];
+    List<String> arr1 = [];
+
+    for (int i = 0; i < 100; i++) {
+      var sheet = await ss.worksheetByIndex(i);
+      if (sheet != null) {
+        arr0.add(sheet.title.replaceAll(RegExp(r'[^0-9]'),''));
+        arr1.add(sheet.title.replaceAll(RegExp(r'[^a-zA-Z]'),''));
+      }
+      else {
+        break;
+      }
     }
+
+    return [arr0.toSet().toList(), arr1.toSet().toList()];
   }
+
 }

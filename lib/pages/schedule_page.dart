@@ -1,4 +1,5 @@
 import 'package:animate_icons/animate_icons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fizmat_app_flutter/fizmat_utils/schedule.dart';
 import 'package:fizmat_app_flutter/widgets/schedule_day_element_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,7 +79,8 @@ class _SchedulePageState extends State<SchedulePage> {
                             tagD : index,
                             title: days[index],
                             schedule: snapshot.data![index],
-                            subtitle: "${days[index]} subtitle"
+                            subtitle: "${days[index]} subtitle",
+                            schedule_timeline: snapshot.data![index + 5],
                         ),
                       );
                     },
@@ -86,9 +88,21 @@ class _SchedulePageState extends State<SchedulePage> {
                   );
                 }
               } else {
-                List<List<String>?> schedule = [prefs?.getStringList("class_monday"), prefs?.getStringList("class_tuesday"), prefs?.getStringList("class_wednesday"), prefs?.getStringList("class_thursday"), prefs?.getStringList("class_friday")];
-                if (schedule[0] != null) {
+                List<List<String>?> schedule = [prefs?.getStringList("class_monday"), prefs?.getStringList("class_tuesday"), prefs?.getStringList("class_wednesday"), prefs?.getStringList("class_thursday"), prefs?.getStringList("class_friday"), prefs?.getStringList("class_monday_schedule"), prefs?.getStringList("class_tuesday_schedule"), prefs?.getStringList("class_wednesday_schedule"), prefs?.getStringList("class_thursday_schedule"), prefs?.getStringList("class_friday_schedule")];
+                if (schedule[0] != null && schedule[5] != null) {
                   _child = PageView.builder (
+                  /*final docRef = db.collection("schedule_timeline").doc(days[in]);
+                  docRef.get().then(
+                        (DocumentSnapshot doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      for (int i = 0; i < data.length; i++) {
+                        print(data.keys.elementAt(i));
+                        print(data.values.elementAt(i));
+                      }
+                      print(data.toString());
+                    },
+                    onError: (e) => print("Error getting document: $e"),
+                  );*/
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 35.0, right: 35.0),
@@ -96,7 +110,8 @@ class _SchedulePageState extends State<SchedulePage> {
                             tagD : index,
                             title: days[index],
                             schedule: schedule[index],
-                            subtitle: "${days[index]} subtitle"
+                            subtitle: "${days[index]} subtitle",
+                            schedule_timeline: schedule[index + 5],
                         ),
                       );
                     },
@@ -187,6 +202,7 @@ class _SchedulePageState extends State<SchedulePage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
+      toolbarHeight: 80,
       title: Padding(
         padding: EdgeInsets.only(
           left: 14.w,

@@ -1,10 +1,8 @@
-import 'package:fizmat_app_flutter/pages/schedule_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:get/get.dart';
 
 class ScheduleDayCard extends StatefulWidget {
   final String? title;
@@ -18,6 +16,7 @@ class ScheduleDayCard extends StatefulWidget {
   final Function? onTap;
   final int tagD;
   final List<String>? schedule;
+  final List<String>? schedule_timeline;
   const ScheduleDayCard(
       {Key? key,
         this.title,
@@ -30,7 +29,8 @@ class ScheduleDayCard extends StatefulWidget {
         this.vectorTop,
         this.onTap,
         required this.tagD,
-        required this.schedule,})
+        required this.schedule,
+        this.schedule_timeline,})
       : super(key: key);
 
   @override
@@ -43,7 +43,6 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
 
     return Material(
       color: Colors.transparent,
@@ -91,7 +90,7 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                 //           assetName: AssetName.vectorSmallBottom),
                 //     ),
                 Padding(
-                  padding: EdgeInsets.only(left: 24.w, top: 24.h, bottom: 24.h),
+                  padding: EdgeInsets.only(left: 24.w, top: 24.h, bottom: 24.h, right: 24.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,21 +165,35 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                               Flexible(
                                 child: ListView.separated(
                                   scrollDirection: Axis.vertical,
+                                  physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   separatorBuilder: (context, index) => const Divider(
                                     color: Colors.white,
-                                    endIndent: 25,
                                   ),
                                   itemCount: widget.schedule!.length,
                                   itemBuilder: (BuildContext context, int index) {
-                                  return Text(
-                                    widget.schedule![index].toString(),
-                                    style: TextStyle(
-                                      fontSize: 16.w,
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.white,
-                                      height: 1.1,
-                                    ),
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        widget.schedule![index].toString(),
+                                        style: TextStyle(
+                                          fontSize: 16.w,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white,
+                                          height: 1.1,
+                                        ),
+                                      ),
+                                      Text(
+                                        widget.schedule_timeline![index],
+                                        style: TextStyle(
+                                          fontSize: 16.w,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white,
+                                          height: 1.1,
+                                        ),
+                                      ),
+                                    ],
                                   );
                                 },
                                 ),
@@ -189,12 +202,11 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                           )
                         ],
                       ),
-                      Row(
+                      /*Row(
                         children: const [
-                          //Icon(Icons.)
-                          //const Icon(Icons.newspaper_rounded, color: Colors.white,)
+                          const Icon(Icons.newspaper_rounded, color: Colors.white,)
                         ],
-                      )
+                      )*/
                     ],
                   ),
                 ),

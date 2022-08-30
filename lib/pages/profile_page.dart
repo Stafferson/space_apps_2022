@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,13 +58,13 @@ Widget profile_buttons_builder() {
         icon: const Icon(Icons.person_add_alt_1),
       ),
       const SizedBox(width: 16.0),
-      FloatingActionButton.extended(
-        onPressed: () {},
+      const FloatingActionButton.extended(
+        onPressed: test,
         heroTag: 'mesage',
         elevation: 0,
         backgroundColor: Colors.red,
-        label: const Text("Message"),
-        icon: const Icon(Icons.message_rounded),
+        label: Text("Message"),
+        icon: Icon(Icons.message_rounded),
       ),
     ],
   );
@@ -151,7 +152,7 @@ class _TopPortion extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(width: 60, height: 10),
+                /*const SizedBox(width: 60, height: 10),
                 Text(
                   "You're",
                   style: TextStyle(
@@ -182,7 +183,7 @@ class _TopPortion extends StatelessWidget {
                       print(user!.phoneNumber.toString());
                     },
                   ),
-                ),
+                ),*/
               ],
             ),
           ),
@@ -202,7 +203,7 @@ class _TopPortion extends StatelessWidget {
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80')),
+                            "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200")),
                   ),
                 ),
                 Positioned(
@@ -224,5 +225,56 @@ class _TopPortion extends StatelessWidget {
         )
       ],
     );
+  }
+}
+void test() {
+  final wednesday = <String, String>{
+    "1": "8.00 - 8.45",
+    "2": "8.50 - 9.35",
+    "3": "9.50 - 10.35",
+    "4": "10.40 - 11.25",
+    "5": "11.45 - 12.30",
+    "6": "12.35 - 13.20",
+    "7": "13.40 - 14.25",
+    "8": "14.30 - 15.15",
+    "9": "15.40 - 16.25",
+    "10": "16.30 - 17.15",
+  };
+
+  FirebaseFirestore? db;
+  db = FirebaseFirestore.instance;
+
+  //db.collection("schedule_timeline")
+  //    .doc("friday")
+  //    .set(wednesday)
+  //    .onError((e, _) => print("Error writing document: $e"));
+  //print("OK");
+
+  /*final docRef = db.collection("schedule_timeline").doc("monday");
+  docRef.get().then(
+        (DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      for (int i = 0; i < data.length; i++) {
+        print(data.keys.elementAt(i));
+        print(data.values.elementAt(i));
+      }
+      print(data.toString());
+    },
+    onError: (e) => print("Error getting document: $e"),
+  );*/
+  var data = null;
+  db.collection("schedule_timeline").get().then(
+        (res) {
+          data = List<String>.from(res.docs.elementAt(1).data().values.toList());
+          print(data);
+          print("gay");
+        },
+    onError: (e) => print("Error completing: $e"),
+  );
+
+  for (int i = 0; i < data!.length; i++) {
+    print("GAY");
+    print(data!.keys.elementAt(i));
+    print(data!.values.elementAt(i));
   }
 }

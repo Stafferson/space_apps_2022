@@ -341,7 +341,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> onReadOnlineButtonPressed() async{
-    await launchUrl(Uri.parse(widget.url.toString()));
+    await launchUrl(Uri.parse(widget.url.toString()), mode: LaunchMode.externalApplication);
   }
 
   void onBackIconTapped() {
@@ -356,14 +356,15 @@ class _DetailPageState extends State<DetailPage> {
 
   Future<void> onOpen(LinkableElement link) async {
 
-    if (await canLaunchUrl(Uri.parse(link.url))) {
+    /*if (await canLaunchUrl(Uri.parse(link.url))!) {
       await launchUrl(Uri.parse(link.url));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Could not launch url"),
       ));
-    }
-    //await launchUrl(Uri.parse(await link.url.replaceAll('http', 'https')));
+    }*/
+
+    await launchUrl(Uri.parse(link.url), mode: LaunchMode.externalApplication);
   }
 
   AppBar appbar_builder() {

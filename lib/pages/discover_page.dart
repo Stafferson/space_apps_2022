@@ -288,9 +288,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
           ),
           DiscoverSmallCard(
               onTap: (){
-                on_school_forum_tapped();
+                on_useful_links_tapped();
               },
-              title: "School\nForum",
+              title: "Useful\nLinks",
               gradientStartColor: Color(0xffFC67A7),
               gradientEndColor: Color(0xffF6815B),
               icon: const Icon(
@@ -312,14 +312,38 @@ class _DiscoverPageState extends State<DiscoverPage> {
           ),
           DiscoverSmallCard(
             onTap: (){
-              on_setting_tapped();
+              on_school_staff_news_tapped();
             },
-            title: "Settings",
+            title: "School\nStaff's news",
             icon:  const Icon(
-              Icons.settings,
+              Icons.notifications_active_rounded,
               color: Colors.white,
             ),
           ),
+          /*DiscoverSmallCard(
+            onTap: (){
+              on_setting_tapped();
+            },
+            title: "Useful\nLinks",
+            gradientStartColor: Color(0xffFC67A7),
+            gradientEndColor: Color(0xffF6815B),
+            icon:  const Icon(
+              Icons.link_rounded,
+              color: Colors.white,
+            ),
+          ),
+          DiscoverSmallCard(
+            onTap: (){
+              on_setting_tapped();
+            },
+            title: "Settings",
+            gradientStartColor: Color(0xff13DEA0),
+            gradientEndColor: Color(0xff06B782),
+            icon:  const Icon(
+              Icons.settings_rounded,
+              color: Colors.white,
+            ),
+          ),*/
         ],
 
       ),
@@ -329,6 +353,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
+      toolbarHeight: 80,
       title: Padding(
         padding: EdgeInsets.only(
           left: 14.w,
@@ -433,15 +458,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
     Get.to(()=> ClassChoosePage());
   }
 
-  void on_school_forum_tapped() {
-
-  }
-
   void on_school_clubs_tapped() {
 
   }
 
-  void on_setting_tapped() {
+  void on_useful_links_tapped() {
+
+  }
+
+  void on_school_staff_news_tapped() {
 
   }
 }
