@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "311414511724-60p3trifonnrd5t9je840c1qhsod06n0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmat_app_flutter",
+            "certificate_hash": "7321ce59f45d0f0ae0a2ec16f4528ac154ddf713"
+          }
+        },
+        {
           "client_id": "311414511724-6j1rk6t628aa1ckqpf7s0u8u6ot3p67l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

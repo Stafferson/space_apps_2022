@@ -1,6 +1,7 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fizmat_app_flutter/pages/class_choose_page.dart';
+import 'package:fizmat_app_flutter/pages/news_page.dart';
 import 'package:fizmat_app_flutter/widgets/discover_card_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -233,9 +234,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
-  void onSeeAllTapped() {
-  }
-
   Widget category_boxes_builder() {
     return Container(
       height: 120.h,
@@ -255,11 +253,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             onPressed: (value) => print(value),
           ),
           CategoryBoxes(
-            text: "Tair is cool",
-            onPressed: (value) => print(value),
-          ),
-          CategoryBoxes(
-            text: "Insomnia",
+            text: "Credits: Tair Kareneyev 11E, Sanzhar Abdrakhim 11A, Alibi Amanzholov 11A",
             onPressed: (value) => print(value),
           ),
         ],
@@ -454,19 +448,53 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
+
+  void onSeeAllTapped() {
+    //Get.to(()=> NewsPage());
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("This function is still in progress"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
+  }
+
   void on_lesson_schedule_tapped() {
     Get.to(()=> ClassChoosePage());
   }
 
   void on_school_clubs_tapped() {
-
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("This function is still in progress"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
   }
 
   void on_useful_links_tapped() {
-
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("This function is still in progress"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
   }
 
   void on_school_staff_news_tapped() {
-
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("This function is still in progress"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
   }
 }
