@@ -69,7 +69,7 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                     ClipRRect(
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
-                          height: 610.w,
+                          height: 680.w,
                           width: 320.w,
                           assetName: AssetName.vectorBottom),
                     ),
@@ -77,7 +77,7 @@ class _ScheduleDayCardState extends State<ScheduleDayCard> with AutomaticKeepAli
                     ClipRRect(
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
-                          height: 610.w,
+                          height: 680.w,
                           width: 320.w,
                           assetName: AssetName.vectorSmallTop),
                     ),

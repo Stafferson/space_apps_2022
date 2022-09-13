@@ -1,17 +1,34 @@
+import 'package:animate_icons/animate_icons.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
 
-class ProfilePage extends StatelessWidget {
+import '../icons.dart';
+import '../widgets/svg_asset.dart';
+
+AnimateIconController _controller = AnimateIconController();
+final FirebaseAuth auth = FirebaseAuth.instance;
+final User? user = auth.currentUser;
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff121421),
+      //appBar: appbar_builder(),
       body: SafeArea(
         child: AnimationLimiter(
           child: Column(
@@ -25,15 +42,48 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       Text(
                         "${user!.displayName}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24.w,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "${user!.email}",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12.w
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      //profile_buttons_builder(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FloatingActionButton.extended(
+                            onPressed: () => copy_email(),
+                            heroTag: 'message',
+                            elevation: 0,
+                            backgroundColor: Colors.white,
+                            label: const Text("Copy my email"),
+                            icon: const Icon(Icons.local_post_office_outlined),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          FloatingActionButton.extended(
+                            onPressed: () => copy_profile_photo_url(),
+                            heroTag: 'message',
+                            elevation: 0,
+                            backgroundColor: Colors.white,
+                            label: const Text("Copy my profile photo Url"),
+                            icon: const Icon(Icons.link_rounded),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 16),
-                      profile_buttons_builder(),
-                      const SizedBox(height: 16),
-                      const _ProfileInfoRow()
+                      //const _ProfileInfoRow()
                     ],
                   ),
                 ),
@@ -44,34 +94,164 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget profile_buttons_builder() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      FloatingActionButton.extended(
+  AppBar appbar_builder() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      toolbarHeight: 80,
+      title: Padding(
+        padding: EdgeInsets.only(
+          left: 14.w,
+          top: 16.h,
+        ),
+        child: Hero(
+          tag: "profile",
+          child: Text("Profile",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 34.w,
+                  fontWeight: FontWeight.bold
+              )
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        /*Padding(
+          padding: EdgeInsets.only(
+            top: 16.h,
+          ),
+          child: IconButton(
+            icon: Icon(
+              Icons.search_rounded,
+              size: 30.w,
+            ),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              //ScaffoldMessenger.of(context).showSnackBar(
+              //    const SnackBar(content: Text('This is a snackbar')));
+            },
+          ),
+        ),*/
+        /*Padding(
+          padding: EdgeInsets.only(
+            top: 16.h,
+          ),
+          child: IconButton(
+            icon: Icon(
+                Icons.refresh_rounded,
+                size: 30.w,
+            ),
+            tooltip: 'Refresh current page',
+            onPressed: () {
+              setState(() {});
+              /*Navigator.push(context, MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('Next page'),
+                    ),
+                    body: info_page_builder(),
+                  );
+                },
+              ));*/
+            },
+          ),
+        ),*/
+
+        Padding(
+          padding: EdgeInsets.only(
+            top: 16.h,
+          ),
+          child: AnimateIcons(
+            startIcon: Icons.refresh_rounded,
+            endIcon: Icons.refresh_rounded,
+            size: 28.0,
+            // add this tooltip for the start icon
+            startTooltip: 'Icons.add_circle',
+            // add this tooltip for the end icon
+            endTooltip: 'Icons.add_circle_outline',
+            controller: _controller,
+            onStartIconPress: () {
+              setState(() {});
+              return true;
+            },
+            onEndIconPress: () {
+              setState(() {});
+              return true;
+            },
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
+            duration: Duration(milliseconds: 500),
+            clockwise: true,
+          ),
+        ),
+      ],
+      backgroundColor: Color(0xff121421),
+      elevation: 0,
+    );
+  }
+
+  void copy_email() {
+    Clipboard.setData(ClipboardData(text: user!.email.toString()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Copied to the Clipboard!"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
+  }
+
+  void copy_profile_photo_url() {
+    Clipboard.setData(ClipboardData(text: user!.photoURL!.replaceAll("s96-c", "s360-c").toString()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Copied to the Clipboard!"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
+  }
+
+  Widget profile_buttons_builder() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        /*FloatingActionButton.extended(
         onPressed: () {},
         heroTag: 'follow',
         elevation: 0,
+        backgroundColor: Colors.white,
         label: const Text("Follow"),
         icon: const Icon(Icons.person_add_alt_1),
       ),
-      const SizedBox(width: 16.0),
-      const FloatingActionButton.extended(
-        onPressed: test,
-        heroTag: 'mesage',
-        elevation: 0,
-        backgroundColor: Colors.red,
-        label: Text("Message"),
-        icon: Icon(Icons.message_rounded),
-      ),
-    ],
-  );
+      const SizedBox(width: 16.0),*/
+        FloatingActionButton.extended(
+          onPressed: () => copy_email(),
+          heroTag: 'message',
+          elevation: 0,
+          backgroundColor: Colors.white,
+          label: const Text("Copy my email"),
+          icon: const Icon(Icons.local_post_office_outlined),
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        FloatingActionButton.extended(
+          onPressed: () => copy_profile_photo_url(),
+          heroTag: 'message',
+          elevation: 0,
+          backgroundColor: Colors.white,
+          label: const Text("Copy my profile photo Url"),
+          icon: const Icon(Icons.link_rounded),
+        ),
+      ],
+    );
+  }
 }
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-final User? user = auth.currentUser;
 
 class _ProfileInfoRow extends StatelessWidget {
   const _ProfileInfoRow({Key? key}) : super(key: key);
@@ -137,7 +317,7 @@ class _TopPortion extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Container(
+        /*Container(
           margin: const EdgeInsets.only(bottom: 50),
           decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -152,7 +332,7 @@ class _TopPortion extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                /*const SizedBox(width: 60, height: 10),
+                const SizedBox(width: 60, height: 10),
                 Text(
                   "You're",
                   style: TextStyle(
@@ -183,11 +363,11 @@ class _TopPortion extends StatelessWidget {
                       print(user!.phoneNumber.toString());
                     },
                   ),
-                ),*/
+                ),
               ],
             ),
           ),
-        ),
+        ),*/
         Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
@@ -197,14 +377,39 @@ class _TopPortion extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.black,
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                            "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200")),
+                          user!.photoURL!.replaceAll("s96-c", "s360-c").toString()
+                        )
+                    ),
                   ),
+                ),
+                /*Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    child: Container(
+                      margin: const EdgeInsets.all(8.0),
+                      decoration: const BoxDecoration(
+                          color: Colors.green, shape: BoxShape.circle),
+                    ),
+                  ),
+                ),*/
+                CachedNetworkImage(
+                  imageUrl: user!.photoURL!.replaceAll("s96-c", "s360-c").toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 Positioned(
                   bottom: 0,
@@ -218,63 +423,12 @@ class _TopPortion extends StatelessWidget {
                           color: Colors.green, shape: BoxShape.circle),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),
         )
       ],
     );
-  }
-}
-void test() {
-  final wednesday = <String, String>{
-    "1": "8.00 - 8.45",
-    "2": "8.50 - 9.35",
-    "3": "9.50 - 10.35",
-    "4": "10.40 - 11.25",
-    "5": "11.45 - 12.30",
-    "6": "12.35 - 13.20",
-    "7": "13.40 - 14.25",
-    "8": "14.30 - 15.15",
-    "9": "15.40 - 16.25",
-    "10": "16.30 - 17.15",
-  };
-
-  FirebaseFirestore? db;
-  db = FirebaseFirestore.instance;
-
-  //db.collection("schedule_timeline")
-  //    .doc("friday")
-  //    .set(wednesday)
-  //    .onError((e, _) => print("Error writing document: $e"));
-  //print("OK");
-
-  /*final docRef = db.collection("schedule_timeline").doc("monday");
-  docRef.get().then(
-        (DocumentSnapshot doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      for (int i = 0; i < data.length; i++) {
-        print(data.keys.elementAt(i));
-        print(data.values.elementAt(i));
-      }
-      print(data.toString());
-    },
-    onError: (e) => print("Error getting document: $e"),
-  );*/
-  var data = null;
-  db.collection("schedule_timeline").get().then(
-        (res) {
-          data = List<String>.from(res.docs.elementAt(1).data().values.toList());
-          print(data);
-          print("gay");
-        },
-    onError: (e) => print("Error completing: $e"),
-  );
-
-  for (int i = 0; i < data!.length; i++) {
-    print("GAY");
-    print(data!.keys.elementAt(i));
-    print(data!.values.elementAt(i));
   }
 }

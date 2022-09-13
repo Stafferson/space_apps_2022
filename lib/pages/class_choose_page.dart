@@ -18,6 +18,7 @@ import 'package:shaky_animated_listview/animators/grid_animator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../icons.dart';
+import '../main.dart';
 import '../widgets/svg_asset.dart';
 
 class ClassChoosePage extends StatefulWidget {
@@ -32,8 +33,8 @@ class ClassChoosePage extends StatefulWidget {
 bool _showAppbar = true;
 bool isScrollingDown = false;
 AnimateIconController _controller = AnimateIconController();
+List<String> saved_classes = [];
 
-SharedPreferences? prefs;
 final List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
 class _ClassChoosePageState extends State<ClassChoosePage> {
@@ -116,6 +117,7 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
             future: Schedule.get_list_all_classes(),
             builder: (context, snapshot) {
               Widget _child;
+              saved_classes = prefs!.getStringList("saved_classes") ?? [""];
               if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                 /*_child = GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 19.w, mainAxisExtent:  125.w, mainAxisSpacing: 19.w),
@@ -144,6 +146,35 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
                     physics: BouncingScrollPhysics(),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
+                      if (saved_classes.contains(snapshot.data![index])) {
+                        //print(snapshot.data![index] + " is saved");
+                        return AnimationConfiguration.staggeredGrid(
+                          columnCount: 3,
+                          position: index,
+                          duration: const Duration(milliseconds: 500),
+                          child: FadeInAnimation(
+                            child: ScheduleClassCard(
+                              tag: "class${snapshot.data![index]}",
+                              onTap: () {
+                                on_class_tap(snapshot.data![index]);
+                              },
+                              title: snapshot.data![index],
+                              gradientStartColor: Color(0xff13DEA0),
+                              gradientEndColor: Color(0xff06B782),
+                              icon: const Icon(
+                                Icons.format_list_bulleted_rounded,
+                                color: Colors.white,
+                              ),
+                              iconSaved: const Icon(
+                                Icons.save_rounded,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      else {
+                        //print(snapshot.data![index] + " is not saved");
                         return AnimationConfiguration.staggeredGrid(
                           columnCount: 3,
                           position: index,
@@ -164,6 +195,7 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
                             ),
                           ),
                         );
+                      }
                       },
                   ),
                 );

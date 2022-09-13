@@ -359,7 +359,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 34.w,
-                  fontWeight: FontWeight.bold)
+                  fontWeight: FontWeight.bold
+              )
           ),
         ),
       ),

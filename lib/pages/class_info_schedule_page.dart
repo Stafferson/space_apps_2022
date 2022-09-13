@@ -84,7 +84,7 @@ class _ClassInfoPageState extends State<ClassInfoPage> {
                   );
                 }
               } else {
-                List<List<String>?> schedule = [prefs?.getStringList("class_monday"), prefs?.getStringList("class_tuesday"), prefs?.getStringList("class_wednesday"), prefs?.getStringList("class_thursday"), prefs?.getStringList("class_friday"), prefs?.getStringList("class_monday_schedule"), prefs?.getStringList("class_tuesday_schedule"), prefs?.getStringList("class_wednesday_schedule"), prefs?.getStringList("class_thursday_schedule"), prefs?.getStringList("class_friday_schedule")];
+                List<List<String>?> schedule = [prefs?.getStringList("${widget.classId}class_monday"), prefs?.getStringList("${widget.classId}class_tuesday"), prefs?.getStringList("${widget.classId}class_wednesday"), prefs?.getStringList("${widget.classId}class_thursday"), prefs?.getStringList("${widget.classId}class_friday"), prefs?.getStringList("class_monday_schedule"), prefs?.getStringList("class_tuesday_schedule"), prefs?.getStringList("class_wednesday_schedule"), prefs?.getStringList("class_thursday_schedule"), prefs?.getStringList("class_friday_schedule")];
                 if (schedule[0] != null && schedule[5] != null) {
                   _child = PageView.builder (
                     physics: BouncingScrollPhysics(),

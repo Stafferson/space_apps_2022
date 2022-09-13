@@ -24,7 +24,7 @@ class News {
       prefs!.setString("news_pages_amount", news_pages);
       return [news_url, news_titles, news_descriptions] ;
     } else {
-      return [[]];
+      return [[""], [""], [""]];
     }
   }
 

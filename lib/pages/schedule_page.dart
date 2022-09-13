@@ -52,18 +52,8 @@ class _SchedulePageState extends State<SchedulePage> {
             builder: (context, snapshot) {
               Widget _child;
               if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                /*List<String> arr0 = [];
-                      List<String> arr1 = [];
-                      List<String> arr = [];
-                      print("DATA");
-                      for (int i = 0; i < 5; i++) {
-                        for (int j = 0; j < snapshot.data![i].length; j++) {
-                          arr0.add(snapshot.data![i][j].split("\n")[0]);
-                          arr1.add(snapshot.data![i][j].split("\n")[1]);
-                        }
-                      }
-                      print(arr0.toString());
-                      print(arr1.toString());*/ // needed for testing, and splitting the schedule: lessons/cabinet
+                print("HERE");
+                print(snapshot.data);
                 if (snapshot.data![0][0].toString() == "0") {
                   _child = const Text("You have not choosed your class yet");
                 } else if (snapshot.data![0][0].toString() == "1") {

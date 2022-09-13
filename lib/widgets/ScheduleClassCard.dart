@@ -15,6 +15,7 @@ class ScheduleClassCard extends StatelessWidget {
   final Widget? vectorTop;
   final double? borderRadius;
   final Widget? icon;
+  final Widget? iconSaved;
   final Function()? onTap;
   final String? tag;
   const ScheduleClassCard(
@@ -30,6 +31,7 @@ class ScheduleClassCard extends StatelessWidget {
         this.vectorTop,
         this.borderRadius,
         this.icon,
+        this.iconSaved,
         this.onTap})
       : super(key: key);
 
@@ -102,10 +104,12 @@ class ScheduleClassCard extends StatelessWidget {
                     Row(
                       children: [
                         icon ??
-                            SvgAsset(
-                              assetName: AssetName.headphone,
-                              height: 24.w,
-                              width: 24.w,
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                        iconSaved ??
+                            SizedBox(
+                              width: 10.w,
                             ),
                       ],
                     )

@@ -91,7 +91,7 @@ class Schedule {
         );
 
         if (arr0 == null || arr0.length == 0) {
-          arr0 = ["", "", "", "", "", "", "", "", "", ""]; // no such class in google sheets
+          arr0 = ["", "", "", "", "", "", "", "", "", ""];
         }
         if (arr1 == null || arr1.length == 0) {
           arr1 = ["", "", "", "", "", "", "", "", "", ""];
@@ -122,16 +122,17 @@ class Schedule {
         }
 
         print("SCHEDULE AND TIMELINE");
-        print(arr00);
-        print(arr11);
-        print(arr22);
-        print(arr33);
-        print(arr44);
         print(arr0);
         print(arr1);
         print(arr2);
         print(arr3);
         print(arr4);
+        print(arr00);
+        print(arr11);
+        print(arr22);
+        print(arr33);
+        print(arr44);
+
 
         prefs.setStringList("class_monday", arr0);
         prefs.setStringList("class_tuesday", arr1);
@@ -258,6 +259,16 @@ class Schedule {
       prefs.setStringList("class_wednesday_schedule", arr22);
       prefs.setStringList("class_thursday_schedule", arr33);
       prefs.setStringList("class_friday_schedule", arr44);
+
+      List<String> arr_saved_classes = prefs.getStringList("saved_classes") ?? [];
+      print(arr_saved_classes);
+      if (!arr_saved_classes.contains(_class)) {
+        arr_saved_classes.add(_class);
+      }
+      prefs.setStringList("saved_classes", arr_saved_classes);
+      print("NIGGERS ARE HERE");
+      print(arr_saved_classes);
+      print(arr_saved_classes.contains(_class));
 
       return [arr0, arr1, arr2, arr3, arr4, arr00, arr11, arr22, arr33, arr44];
     } else {

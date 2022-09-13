@@ -68,7 +68,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 SizedBox(height: 10.h),
                 Padding(
-                  padding: EdgeInsets.only(left: 28.w),
+                  padding: EdgeInsets.only(left: 18.w),
                   child: FutureBuilder<List<List<String>>>(
                     future: News.get_infonews_url(widget.url.toString()),
                     builder: (context, snapshot) {
@@ -370,7 +370,7 @@ class _DetailPageState extends State<DetailPage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
-      toolbarHeight: 60,
+      toolbarHeight: 80,
       leading: Padding(
         padding: EdgeInsets.only(
           top: 10.h,
