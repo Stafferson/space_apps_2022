@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
-      toolbarHeight: 80,
+      toolbarHeight: 60.h,
       title: Padding(
         padding: EdgeInsets.only(
           left: 14.w,

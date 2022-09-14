@@ -222,7 +222,7 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
-      toolbarHeight: 80,
+      toolbarHeight: 60.h,
       leading: Padding(
         padding: EdgeInsets.only(
           top: 10.h,

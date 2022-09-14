@@ -175,7 +175,7 @@ class _ClassInfoPageState extends State<ClassInfoPage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
-      toolbarHeight: 60,
+      toolbarHeight: 60.h,
       leading: Padding(
         padding: EdgeInsets.only(
           top: 10.h,

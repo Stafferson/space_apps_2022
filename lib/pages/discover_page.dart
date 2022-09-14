@@ -111,6 +111,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             SizedBox(height: 14.h),
             main_menu_builder(),
+            //SizedBox(height: 14.h),
+            //main_menu_builder(),
+            //SizedBox(height: 48.h),
           ],
         ),
       ),
@@ -138,7 +141,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   Widget last_news_builder() {
     return SizedBox(
-      height: 176.w,
+      height: 176.h,
       child: FutureBuilder<List<List<String>>>(
           future: News.get_last_3_news(),
           builder: (context, snapshot) {
@@ -146,7 +149,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
               _child = ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: snapshot.data!.length + 2,
                   itemBuilder: (context, index) {
                     if (index == 0 || index == snapshot.data!.length + 1) {
@@ -261,6 +264,59 @@ class _DiscoverPageState extends State<DiscoverPage> {
     );
   }
 
+  Widget main_menu_builder1() {
+    return Padding(
+      padding:  EdgeInsets.symmetric(horizontal: 28.w),
+      child: GridView(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 19.w, mainAxisExtent:  125.w, mainAxisSpacing: 19.w),
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          DiscoverSmallCard(
+            onTap: (){
+              on_lesson_schedule_tapped();
+            },
+            title: "Lessons\nSchedule",
+            icon: const Icon(
+              Icons.format_list_bulleted_rounded,
+              color: Colors.white,
+            ),
+          ),
+          DiscoverSmallCard(
+              onTap: (){
+                on_useful_links_tapped();
+              },
+              title: "Useful\nLinks",
+              icon: const Icon(
+                Icons.forum_rounded,
+                color: Colors.white,
+              )
+          ),
+          DiscoverSmallCard(
+            onTap: (){
+              on_school_clubs_tapped();
+            },
+            title: "School\nClubs",
+            icon: const Icon(
+              Icons.groups_rounded,
+              color: Colors.white,
+            ),
+          ),
+          DiscoverSmallCard(
+            onTap: (){
+              on_school_staff_news_tapped();
+            },
+            title: "School\nStaff's news",
+            icon:  const Icon(
+              Icons.notifications_active_rounded,
+              color: Colors.white,
+            ),
+          ),
+        ],
+
+      ),
+    );
+  }
+
   Widget main_menu_builder() {
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: 28.w),
@@ -347,7 +403,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   AppBar appbar_builder() {
     return AppBar(
       automaticallyImplyLeading: false,
-      toolbarHeight: 80,
+      toolbarHeight: 60.h,
       title: Padding(
         padding: EdgeInsets.only(
           left: 14.w,

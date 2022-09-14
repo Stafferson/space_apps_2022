@@ -51,7 +51,7 @@ class DiscoverCard extends StatelessWidget {
             ),
           ),
           child: Container(
-            height: 176.w,
+            height: 176.h,
             width: 305.w,
             child: Stack(
               children: [
@@ -59,7 +59,7 @@ class DiscoverCard extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
-                          height: 176.w,
+                          height: 176.h,
                           width: 306.w,
                           assetName: AssetName.vectorBottom),
                     ),
@@ -67,7 +67,7 @@ class DiscoverCard extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
-                          height: 176.w,
+                          height: 176.h,
                           width: 305.w,
                           assetName: AssetName.vectorTop),
                     ),

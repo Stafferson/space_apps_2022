@@ -6,6 +6,7 @@ import 'package:fizmat_app_flutter/pages/discover_page.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/pages/profile_page.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../fizmat_utils/animated_indexed_stack.dart';
 
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
         children: _widgetOptions,
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        height: 56,
+        height: 50.h.round().toDouble(),
         color: Color(0xFF1C2031),
         backgroundColor: Color(0xff121421),
         items: icons,
