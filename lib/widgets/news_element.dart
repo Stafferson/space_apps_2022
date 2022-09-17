@@ -2,25 +2,24 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// A list tile for an article.
 class NewsItem extends StatelessWidget {
-  const NewsItem({Key? key}) : super(key: key);
 
-  // String get _formattedDurationInMinutes {
-  //   final durationInMinutes = article.duration / 60;
-  //   return '${durationInMinutes.toStringAsFixed(0)} mins';
-  // }
-  //
-  // String get _formattedReleaseDate =>
-  //     DateFormat('MMM d yyyy').format(article.releaseDate);
+  final String? title;
+  final String? subtitle;
+  final String? url;
+
+  const NewsItem(
+      {Key? key, this.title, this.subtitle, this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    var is_image = true;
+    var is_image = (url == "");
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
@@ -37,7 +36,7 @@ class NewsItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Title",
+                      title!,
                       style: textTheme.subtitle1,
                     ),
                   ),
@@ -50,7 +49,7 @@ class NewsItem extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: 50,
                       height: 50,
-                      imageUrl: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+                      imageUrl: url!,
                     ),
                   ),
                 ],
@@ -59,7 +58,7 @@ class NewsItem extends StatelessWidget {
                 height: 16,
               ),
               Text(
-                "decription",
+                subtitle!,
                 style: textTheme.bodyText2,
               ),
               Text(

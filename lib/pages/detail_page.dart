@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
+import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -60,7 +60,8 @@ class _DetailPageState extends State<DetailPage> {
                           style: TextStyle(
                           color: Colors.white,
                           fontSize: 32.w,
-                          fontWeight: FontWeight.bold)
+                          fontWeight: FontWeight.bold
+                          )
                         ),
                       ),
                     )
@@ -68,9 +69,9 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 SizedBox(height: 10.h),
                 Padding(
-                  padding: EdgeInsets.only(left: 18.w),
+                  padding: EdgeInsets.only(left: 18.w, right: 18.w),
                   child: FutureBuilder<List<List<String>>>(
-                    future: News.get_infonews_url(widget.url.toString()),
+                    future: NewsApi.get_infonews_url(widget.url.toString()),
                     builder: (context, snapshot) {
                       Widget _child;
                       if (snapshot.hasData) {
@@ -79,12 +80,13 @@ class _DetailPageState extends State<DetailPage> {
                           for (var element in snapshot.data![2]) {
                             rubrics += "$element ";
                           }
-                          _child = Text(
+                          return Text(
                             "Рубрики: $rubrics",
                             style: TextStyle(
                                 color: Color(0xffffffff).withOpacity(0.7),
                                 fontWeight: FontWeight.w400,
-                                fontSize: 16.w),
+                                fontSize: 16.w
+                            ),
                           );
                         } else {
                           _child = Container();
@@ -105,7 +107,7 @@ class _DetailPageState extends State<DetailPage> {
                 SizedBox(
                   height: 280.w,
                   child: FutureBuilder<List<List<String>>>(
-                      future: News.get_infonews_url(widget.url.toString()),
+                      future: NewsApi.get_infonews_url(widget.url.toString()),
                       builder: (context, snapshot) {
                         Widget _child;
                         if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
@@ -190,7 +192,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),*/
                 //SizedBox(height: 32.h),
                 FutureBuilder<List<List<String>>> (
-                    future: News.get_infonews_url(widget.url.toString()),
+                    future: NewsApi.get_infonews_url(widget.url.toString()),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                         return Padding(

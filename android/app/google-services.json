@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "311414511724-8k8psidu13j8qo550hmlq5qvhmahcami.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fizmat_app_flutter",
+            "certificate_hash": "69defcf0b7b7b6fc05a83234c31b3019a6692a45"
+          }
+        },
+        {
           "client_id": "311414511724-91pbmjsidkr3pkmvqte9fc3lvsk7jul7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

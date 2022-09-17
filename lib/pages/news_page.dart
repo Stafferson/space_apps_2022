@@ -9,9 +9,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
+import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shaky_animated_listview/animators/grid_animator.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../main.dart';
 
 
 class NewsPage extends StatefulWidget {
@@ -25,7 +28,31 @@ class NewsPage extends StatefulWidget {
 AnimateIconController _controller = AnimateIconController();
 
 class _NewsPageState extends State<NewsPage> {
-  static const _pageSize = 3;
+  final PagingController<int, List<String>> _pagingController =
+  PagingController(firstPageKey: 1);
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await NewsApi.get_all_news_per_page(pageKey);
+      final isLastPage = pageKey == int.parse(prefs!.getString('news_pages_amount') ?? "90");
+      if (!isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +60,22 @@ class _NewsPageState extends State<NewsPage> {
       backgroundColor: const Color(0xff121421),
       appBar: appbar_builder(),
       body: SafeArea(
-        child: Stack(
+        child: /*Stack(
           children: [
             ListView(
               children: [
-                NewsItem(),
-                NewsItem(),
-                NewsItem(),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 10.h),
+                  child: news_builder(),
+                ),
               ],
             )
           ],
-        ),
+        ),*/
+        news_builder(),
       ),
     );
   }
@@ -113,5 +145,30 @@ class _NewsPageState extends State<NewsPage> {
         ),
       ],
     );
+  }
+  
+  Widget news_builder() {
+    return Container(
+      child: Center(
+        child: PagedListView.separated(
+          pagingController: _pagingController,
+          padding: const EdgeInsets.all(16),
+          builderDelegate: PagedChildBuilderDelegate<List<String>>(
+            itemBuilder: (context, item, index) => NewsItem(
+              title: item[1],
+              subtitle: item[2],
+              url: item[0],
+            ),
+          ),
+          separatorBuilder: (contex, index) => SizedBox(height: 16.h),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }

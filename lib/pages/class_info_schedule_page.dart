@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
-import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
+import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../fizmat_utils/schedule.dart';

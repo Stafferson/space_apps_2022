@@ -10,7 +10,7 @@
 // import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
 // import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 //
-// import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
+// import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 //
 // class DiscoverPage extends StatefulWidget {
 //   const DiscoverPage({

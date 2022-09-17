@@ -16,7 +16,7 @@ import 'package:fizmat_app_flutter/widgets/discover_card.dart';
 import 'package:fizmat_app_flutter/widgets/discover_small_card.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
-import 'package:fizmat_app_flutter/fizmat_utils/news.dart';
+import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({
@@ -143,7 +143,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     return SizedBox(
       height: 176.h,
       child: FutureBuilder<List<List<String>>>(
-          future: News.get_last_3_news(),
+          future: NewsApi.get_last_3_news(),
           builder: (context, snapshot) {
             Widget _child;
             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
@@ -507,15 +507,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
 
   void onSeeAllTapped() {
-    //Get.to(()=> NewsPage());
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("This function is still in progress"),
-      backgroundColor: Colors.white,
-      behavior: SnackBarBehavior.floating,
-      elevation: 10,
-      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      duration: Duration(milliseconds: 500),
-    ));
+    Get.to(()=> NewsPage());
+    //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //  content: Text("This function is still in progress"),
+    //  backgroundColor: Colors.white,
+    //  behavior: SnackBarBehavior.floating,
+    //  elevation: 10,
+    //  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+    //  duration: Duration(milliseconds: 500),
+    //));
   }
 
   void on_lesson_schedule_tapped() {

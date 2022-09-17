@@ -1,9 +1,12 @@
+import 'package:fizmat_app_flutter/fizmat_utils/News.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 
 import '../main.dart';
 
-class News {
+class NewsApi {
+
+  int newsPages = 90;
   static Future<List<List<String>>> get_last_3_news() async {
     final response = await http.get(
       Uri.parse('https://almaty.fizmat.kz/o-shkole/novosti-i-meropriyatiya/'),
@@ -62,6 +65,54 @@ class News {
     }
   }
 
+  static Future<List<List<String>>> get_all_news_per_page1(int pageNumber) async {
+
+    int pageTotal = int.parse(prefs!.getString('news_pages_amount') ?? "90");
+
+    if (pageNumber > pageTotal) {
+      return [["0"]];
+    }
+
+    final response = await http.get(
+      Uri.parse('https://almaty.fizmat.kz/o-shkole/novosti-i-meropriyatiya/page/${pageNumber}/'),
+    );
+
+    if (response.statusCode == 200) {
+      var document = parse(response.body);
+
+      List<String> news_url = [];
+      List<String> news_titles = [];
+      List<String> news_descriptions = [];
+      try {
+        news_url = [for (var i = 0; i < document.getElementsByClassName('news__item-img').length; i++) document.getElementsByClassName('news__item-img')[i].children[0].attributes['href'].toString()];
+      } catch (e) {
+        print(e);
+      }
+      try {
+        news_titles = [for (var i = 0; i < document.getElementsByClassName('news__item-txt').length; i++) document.getElementsByClassName('news__item-txt')[i].children[0].children[0].text.toString()];
+      } catch (e) {
+        print(e);
+      }
+      try {
+        news_descriptions = [for (var i = 0; i < document.getElementsByClassName('news__item-txt').length; i++) document.getElementsByClassName('news__item-txt')[i].children[1].text.toString()];
+      } catch (e) {
+        print(e);
+      }
+      print(document.getElementsByClassName('news__item-img').length);
+      print(document.getElementsByClassName('news__item-txt').length);
+      print(document.getElementsByClassName('news__item-txt').length);
+      print("ALL NEWS ON PAGE ${pageNumber}");
+      print(news_url);
+      print(news_titles);
+      print(news_descriptions);
+      //return images_url.toString();
+      //print(document.getElementsByClassName("news__item")[0].getElementsByClassName(classNames));
+      return [news_url, news_titles, news_descriptions] ;
+    } else {
+      return [[]];
+    }
+  }
+
   static Future<List<List<String>>> get_all_news_per_page(int pageNumber) async {
 
     int pageTotal = int.parse(prefs!.getString('news_pages_amount') ?? "90");
@@ -73,6 +124,8 @@ class News {
     final response = await http.get(
       Uri.parse('https://almaty.fizmat.kz/o-shkole/novosti-i-meropriyatiya/page/${pageNumber}/'),
     );
+
+    List<News> news = [];
 
     if (response.statusCode == 200) {
       var document = parse(response.body);
