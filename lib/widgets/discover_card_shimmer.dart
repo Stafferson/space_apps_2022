@@ -41,7 +41,7 @@ class DiscoverCardShimmer extends StatelessWidget {
             ),
           ),
           child: Container(
-            height: 176.w,
+            height: 176.h,
             width: 305.w,
             child: Stack(
               children: [
@@ -49,7 +49,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
-                          height: 176.w,
+                          height: 176.h,
                           width: 306.w,
                           assetName: AssetName.vectorBottom),
                     ),
@@ -57,7 +57,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(26),
                       child: SvgAsset(
-                          height: 176.w,
+                          height: 176.h,
                           width: 305.w,
                           assetName: AssetName.vectorTop),
                     ),
@@ -76,7 +76,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                               baseColor: Color(0x4dd1d1d1),
                               highlightColor: Colors.white,
                               child: SizedBox(
-                                height: 20.w,
+                                height: 20.h,
                                 width: 230.w,
                                 child: Container(
                                     decoration: const BoxDecoration(
@@ -99,7 +99,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                               baseColor: Color(0x4dd1d1d1),
                               highlightColor: Colors.white,
                               child: SizedBox(
-                                height: 20.w,
+                                height: 20.h,
                                 width: 160.w,
                                 child: Container(
                                   decoration: const BoxDecoration(
@@ -122,7 +122,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                               baseColor: Color(0x4dd1d1d1),
                               highlightColor: Colors.white,
                               child: SizedBox(
-                                height: 16.w,
+                                height: 16.h,
                                 width: 230.w,
                                 child: Container(
                                   decoration: const BoxDecoration(
@@ -145,7 +145,7 @@ class DiscoverCardShimmer extends StatelessWidget {
                               baseColor: Color(0x4dd1d1d1),
                               highlightColor: Colors.white,
                               child: SizedBox(
-                                height: 16.w,
+                                height: 16.h,
                                 width: 230.w,
                                 child: Container(
                                   decoration: const BoxDecoration(

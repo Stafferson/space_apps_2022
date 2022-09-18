@@ -149,7 +149,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
               _child = ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data!.length + 2,
                   itemBuilder: (context, index) {
                     if (index == 0 || index == snapshot.data!.length + 1) {
@@ -507,15 +507,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
 
   void onSeeAllTapped() {
-    Get.to(()=> NewsPage());
-    //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-    //  content: Text("This function is still in progress"),
-    //  backgroundColor: Colors.white,
-    //  behavior: SnackBarBehavior.floating,
-    //  elevation: 10,
-    //  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-    //  duration: Duration(milliseconds: 500),
-    //));
+    //Get.to(()=> NewsPage());
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("This function is still in progress"),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      duration: Duration(milliseconds: 500),
+    ));
   }
 
   void on_lesson_schedule_tapped() {
