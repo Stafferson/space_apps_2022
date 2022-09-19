@@ -120,45 +120,61 @@ class _RegisterPageState extends State<RegisterPage>
                     text: "Sign up with Google",
                     onPressed: () async {
                       DatabaseManager dat = DatabaseManager();
-                      UserCredential? credential = await signInWithGoogle();
-                      if (credential == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Error №23 - Unable to sign in without Fizmat Account"),
+                      try {
+                        UserCredential? credential = await signInWithGoogle();
+                        if (credential == null) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text(
+                                "Error №23 - Unable to sign in without Fizmat Account"),
+                            backgroundColor: Colors.white,
+                            behavior: SnackBarBehavior.floating,
+                            elevation: 10,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 12.0),
+                          ));
+                          GoogleSignIn().signOut();
+                          return;
+                        }
+                        User? us = credential.user;
+                        if (us == null) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content:
+                                Text("Error №17. Clear cache and try again"),
+                            backgroundColor: Colors.white,
+                            behavior: SnackBarBehavior.floating,
+                            elevation: 10,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 12.0),
+                          ));
+                          GoogleSignIn().signOut();
+                          return;
+                        }
+                        UserFiz user = UserFiz();
+                        user.setEmail(us.email);
+                        user.setName(us.displayName);
+                        user.setPhotoURL(us.photoURL);
+                        user.setUID(us.uid);
+                        final fcmT =
+                            await FirebaseMessaging.instance.getToken();
+                        user.setFcmToken(fcmT);
+                        dat.addUser(user);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Success"),
                           backgroundColor: Colors.white,
                           behavior: SnackBarBehavior.floating,
                           elevation: 10,
-                          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 12.0),
                         ));
-                        return;
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                      } catch (e) {
+                        e.printError();
+                        GoogleSignIn().signOut();
                       }
-                      User? us = credential.user;
-                      if (us == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Error №17. Clear cache and try again"),
-                          backgroundColor: Colors.white,
-                          behavior: SnackBarBehavior.floating,
-                          elevation: 10,
-                          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                        ));
-                        return;
-                      }
-                      UserFiz user = UserFiz();
-                      user.setEmail(us.email);
-                      user.setName(us.displayName);
-                      user.setPhotoURL(us.photoURL);
-                      user.setUID(us.uid);
-                      final fcmT = await FirebaseMessaging.instance.getToken();
-                      user.setFcmToken(fcmT);
-                      dat.addUser(user);
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Success"),
-                        backgroundColor: Colors.white,
-                        behavior: SnackBarBehavior.floating,
-                        elevation: 10,
-                        margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                      ));
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const HomePage()));
                     },
                   ),
                 ),
@@ -182,7 +198,7 @@ class _RegisterPageState extends State<RegisterPage>
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
-
+    googleUser.clearAuthCache();
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
