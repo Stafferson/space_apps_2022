@@ -125,16 +125,17 @@ class NewsApi {
       Uri.parse('https://almaty.fizmat.kz/o-shkole/novosti-i-meropriyatiya/page/${pageNumber}/'),
     );
 
-    List<News> news = [];
+    List<List<String>> news_i = [];
 
     if (response.statusCode == 200) {
       var document = parse(response.body);
 
-      List<String> news_url = [];
+      List<String> news_images_url = [];
       List<String> news_titles = [];
       List<String> news_descriptions = [];
+      List<String> news_url = [];
       try {
-        news_url = [for (var i = 0; i < document.getElementsByClassName('news__item-img').length; i++) document.getElementsByClassName('news__item-img')[i].children[0].attributes['href'].toString()];
+        news_url = [for (var i = 0; i < document.getElementsByClassName('news__item-txt').length; i++) document.getElementsByClassName('news__item-img')[i].children[0].attributes['href'].toString()];
       } catch (e) {
         print(e);
       }
@@ -148,18 +149,30 @@ class NewsApi {
       } catch (e) {
         print(e);
       }
+      try {
+        news_images_url = [for (var i = 0; i < document.getElementsByClassName('news__item-txt').length; i++) (document.getElementsByClassName('news__item-img')[i].children[0].children[0].attributes['src'].toString())];
+      } catch (e) {
+        print(e);
+      }
+
+
+      for (var i = 0; i < news_titles.length; i++) {
+        news_i.add([news_titles[i], news_descriptions[i], news_images_url[i], news_url[i]]);
+      }
       print(document.getElementsByClassName('news__item-img').length);
       print(document.getElementsByClassName('news__item-txt').length);
       print(document.getElementsByClassName('news__item-txt').length);
       print("ALL NEWS ON PAGE ${pageNumber}");
-      print(news_url);
       print(news_titles);
       print(news_descriptions);
+      print(news_images_url);
+      print(news_url);
       //return images_url.toString();
       //print(document.getElementsByClassName("news__item")[0].getElementsByClassName(classNames));
-      return [news_url, news_titles, news_descriptions] ;
+      //return [news_images_url, news_titles, news_descriptions];
+      return news_i;
     } else {
-      return [[]];
+      return [["1"]];
     }
   }
 

@@ -1,20 +1,17 @@
 import 'package:animate_icons/animate_icons.dart';
-import 'package:fizmat_app_flutter/pages/discover_page.dart';
 import 'package:fizmat_app_flutter/widgets/news_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:fizmat_app_flutter/icons.dart';
-import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:shaky_animated_listview/animators/grid_animator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import 'detail_page.dart';
 
 
 class NewsPage extends StatefulWidget {
@@ -150,15 +147,34 @@ class _NewsPageState extends State<NewsPage> {
   Widget news_builder() {
     return Container(
       child: Center(
-        child: PagedListView.separated(
+        child: PagedListView<int, List<String>>.separated(
           pagingController: _pagingController,
           padding: const EdgeInsets.all(16),
           builderDelegate: PagedChildBuilderDelegate<List<String>>(
-            itemBuilder: (context, item, index) => NewsItem(
-              title: item[1],
-              subtitle: item[2],
-              url: item[0],
-            ),
+            itemBuilder: (context, item, index) {
+              String title = "";
+              String subtitle = "";
+              if (item[0].length > 45) {
+                title = item[0].substring(
+                    0, 46);
+              } else {
+                title = item[0];
+              }
+
+              if (item[1].length > 41) {
+                subtitle = item[1].substring(0, 42);
+              } else {
+                subtitle = item[1];
+              }
+              return NewsItem(
+                title: "${title}...",
+                subtitle: "${subtitle}...",
+                image: item[2],
+                url: item[3],
+                tag: "all_news_$index",
+                onTap: () => onNewsTapped(index, item),
+              );
+            }
           ),
           separatorBuilder: (contex, index) => SizedBox(height: 16.h),
         ),
@@ -170,5 +186,11 @@ class _NewsPageState extends State<NewsPage> {
   void dispose() {
     _pagingController.dispose();
     super.dispose();
+  }
+
+  onNewsTapped(int index1, List<String> _snapshot) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Get.to(()=> DetailPage(title: _snapshot[0], url: _snapshot[3], index: index1), transition: Transition.rightToLeft);
+    });
   }
 }

@@ -16,13 +16,11 @@ class DetailPage extends StatefulWidget {
   final String? title;
   final String? url;
   final int? index;
-  final List<String>? description;
   const DetailPage(
       {Key? key,
         required this.title,
         required this.url,
         required this.index,
-        this.description
       }) : super(key: key);
 
   @override

@@ -135,7 +135,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   onLastNewsTapped(int index1, List<List<String>> _snapshot) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //Get.to(()=> DetailPage(title: news[1][index].toString(), url: news[0][index].toString()), transition: Transition.rightToLeft);
-      Get.to(()=> DetailPage(title: _snapshot[1][index1].toString(), url: _snapshot[0][index1].toString(), description: _snapshot[2], index: index1,), transition: Transition.rightToLeft);
+      Get.to(()=> DetailPage(title: _snapshot[1][index1].toString(), url: _snapshot[0][index1].toString(), index: index1,), transition: Transition.rightToLeft);
     });
   }
 
@@ -507,15 +507,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
 
   void onSeeAllTapped() {
-    //Get.to(()=> NewsPage());
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    Get.to(()=> NewsPage());
+    /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("This function is still in progress"),
       backgroundColor: Colors.white,
       behavior: SnackBarBehavior.floating,
       elevation: 10,
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       duration: Duration(milliseconds: 500),
-    ));
+    ));*/
   }
 
   void on_lesson_schedule_tapped() {

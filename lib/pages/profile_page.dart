@@ -401,16 +401,16 @@ class _TopPortion extends StatelessWidget {
                     ),
                   ),
                 ),*/
-                CachedNetworkImage(
-                  imageUrl: user!.photoURL!.replaceAll("s96-c", "s360-c").toString(),
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
+                //CachedNetworkImage(
+                //  imageUrl: user!.photoURL!.replaceAll("s96-c", "s360-c").toString(),
+                //  imageBuilder: (context, imageProvider) => Container(
+                //    decoration: const BoxDecoration(
+                //      shape: BoxShape.circle,
+                //    ),
+                //  ),
+                //  placeholder: (context, url) => CircularProgressIndicator(),
+                //  errorWidget: (context, url, error) => Icon(Icons.error),
+                //),
                 Positioned(
                   bottom: 0,
                   right: 0,

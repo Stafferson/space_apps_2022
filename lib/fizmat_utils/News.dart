@@ -2,34 +2,31 @@ class News {
   String? _title;
   String? _subtitle;
   String? _face_image_url;
-  String? _photoURL;
+  String? URL;
 
-  News();
+  News(String news_title, String news_subtitle, String news_face_image_url, String news_URL) {
+    this._title = news_title;
+    this._subtitle = news_subtitle;
+    this._face_image_url = news_face_image_url;
+    this.URL = news_URL;
+  }
 
   News.set(
-      this._title, this._subtitle, this._face_image_url, this._photoURL);
+      this._title, this._subtitle, this._face_image_url, this.URL);
 
-  String get photoURL => _photoURL!;
-
-  set photoURL(String value) {
-    _photoURL = value;
+  get photoURL {
+    return this._face_image_url;
   }
 
-  String get face_image_url => _face_image_url!;
-
-  set face_image_url(String value) {
-    _face_image_url = value;
+  get title {
+    return this._title;
   }
 
-  String get subtitle => _subtitle!;
-
-  set subtitle(String value) {
-    _subtitle = value;
+  get subtitle {
+    return this._subtitle;
   }
 
-  String get title => _title!;
-
-  set title(String value) {
-    _title = value;
+  get url {
+    return this.URL;
   }
 }
