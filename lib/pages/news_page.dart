@@ -38,9 +38,9 @@ class _NewsPageState extends State<NewsPage> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await NewsApi.get_all_news_per_page(pageKey);
-      final isLastPage = pageKey == int.parse(prefs!.getString('news_pages_amount') ?? "90");
-      if (!isLastPage) {
+      var newItems = await NewsApi.get_all_news_per_page(pageKey);
+      var isLastPage = pageKey >= int.parse(prefs!.getString('news_pages_amount') ?? "90");
+      if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
         final nextPageKey = pageKey + 1;
@@ -112,71 +112,79 @@ class _NewsPageState extends State<NewsPage> {
         ),
       ),
       backgroundColor: Color(0xff121421),
-      actions: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            top: 10.h,
-          ),
-          child: AnimateIcons(
-            startIcon: Icons.refresh_rounded,
-            endIcon: Icons.refresh_rounded,
-            size: 28.0,
-            // add this tooltip for the start icon
-            startTooltip: 'Icons.add_circle',
-            // add this tooltip for the end icon
-            endTooltip: 'Icons.add_circle_outline',
-            controller: _controller,
-            onStartIconPress: () {
-              setState(() {});
-              return true;
-            },
-            onEndIconPress: () {
-              setState(() {});
-              return true;
-            },
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
-            duration: Duration(milliseconds: 500),
-            clockwise: true,
-          ),
-        ),
-      ],
+      //actions: <Widget>[
+      //  Padding(
+      //    padding: EdgeInsets.only(
+      //      top: 10.h,
+      //    ),
+      //    child: AnimateIcons(
+      //      startIcon: Icons.refresh_rounded,
+      //      endIcon: Icons.refresh_rounded,
+      //      size: 28.0,
+      //      // add this tooltip for the start icon
+      //      startTooltip: 'Icons.add_circle',
+      //      // add this tooltip for the end icon
+      //      endTooltip: 'Icons.add_circle_outline',
+      //      controller: _controller,
+      //      onStartIconPress: () {
+      //        setState(() {});
+      //        return true;
+      //      },
+      //      onEndIconPress: () {
+      //        setState(() {});
+      //        return true;
+      //      },
+      //      startIconColor: Colors.white,
+      //      endIconColor: Colors.white,
+      //      duration: Duration(milliseconds: 500),
+      //      clockwise: true,
+      //    ),
+      //  ),
+      //],
     );
   }
   
   Widget news_builder() {
-    return Container(
-      child: Center(
-        child: PagedListView<int, List<String>>.separated(
-          pagingController: _pagingController,
-          padding: const EdgeInsets.all(16),
-          builderDelegate: PagedChildBuilderDelegate<List<String>>(
-            itemBuilder: (context, item, index) {
-              String title = "";
-              String subtitle = "";
-              if (item[0].length > 45) {
-                title = item[0].substring(
-                    0, 46);
-              } else {
-                title = item[0];
-              }
+    return RefreshIndicator(
+      onRefresh: () => Future.sync(
+          () => _pagingController.refresh()
+      ),
+      child: Container(
+        child: Center(
+          child: PagedListView<int, List<String>>.separated(
+            pagingController: _pagingController,
+            padding: const EdgeInsets.all(16),
+            builderDelegate: PagedChildBuilderDelegate<List<String>>(
+              itemBuilder: (context, item, index) {
+                String title = "";
+                String subtitle = "";
+                //if (item[0].length > 45) {
+                //  title = "${item[0].substring(
+                //      0, 46)}...";
+                //} else {
+                //  title = item[0];
+                //}
 
-              if (item[1].length > 41) {
-                subtitle = item[1].substring(0, 42);
-              } else {
+                title = item[0];
+
+                //if (item[1].length > 41) {
+                //  subtitle = "${item[1].substring(0, 42)}...";
+                //} else {
+                //  subtitle = item[1];
+                //}
                 subtitle = item[1];
+                return NewsItem(
+                  title: title,
+                  subtitle: subtitle,
+                  image: item[2],
+                  url: item[3],
+                  tag: "all_news_$index",
+                  onTap: () => onNewsTapped(index, item, "all_news_$index"),
+                );
               }
-              return NewsItem(
-                title: "${title}...",
-                subtitle: "${subtitle}...",
-                image: item[2],
-                url: item[3],
-                tag: "all_news_$index",
-                onTap: () => onNewsTapped(index, item),
-              );
-            }
+            ),
+            separatorBuilder: (contex, index) => SizedBox(height: 16.h),
           ),
-          separatorBuilder: (contex, index) => SizedBox(height: 16.h),
         ),
       ),
     );
@@ -188,9 +196,9 @@ class _NewsPageState extends State<NewsPage> {
     super.dispose();
   }
 
-  onNewsTapped(int index1, List<String> _snapshot) {
+  onNewsTapped(int index1, List<String> _snapshot, String tag) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Get.to(()=> DetailPage(title: _snapshot[0], url: _snapshot[3], index: index1), transition: Transition.rightToLeft);
+      Get.to(()=> DetailPage(tag: tag, title: _snapshot[0], url: _snapshot[3], index: index1), transition: Transition.rightToLeft);
     });
   }
 }

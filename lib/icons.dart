@@ -10,7 +10,9 @@ class MeditationSvgAssets {
   Map<AssetName, String> assets = {
     AssetName.search: "assets/icons/search.svg",
     AssetName.vectorBottom: "assets/pics/Vector.svg",
+    AssetName.vectorBottomBottom: "assets/pics/Vector00.svg",
     AssetName.vectorTop: "assets/pics/Vector-1.svg",
+    AssetName.vectorTopTop: "assets/icons/Vector11.svg",
     AssetName.headphone: "assets/icons/headphone.svg",
     AssetName.tape: "assets/icons/tape.svg",
     AssetName.vectorSmallBottom: "assets/pics/VectorSmallBottom.svg",
@@ -29,7 +31,9 @@ class MeditationSvgAssets {
 enum AssetName {
   search,
   vectorBottom,
+  vectorBottomBottom,
   vectorTop,
+  vectorTopTop,
   headphone,
   tape,
   vectorSmallBottom,

@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fizmat_app_flutter/icons.dart';
 import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NewsItem extends StatelessWidget {
   final String? title;
@@ -41,76 +43,87 @@ class NewsItem extends StatelessWidget {
             ),
           ),
           child: Container(
-            height: 176.h,
-            width: 305.w,
             child: Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(26),
-                  child: SvgAsset(
-                      height: 176.h,
-                      width: 306.w,
-                      assetName: AssetName.vectorBottom),
+                  child: const SvgAsset(
+                      height: 500,
+                      width: 400,
+                      assetName: AssetName.vectorBottomBottom),
                 ),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(26),
-                  child: SvgAsset(
-                      height: 176.h,
-                      width: 305.w,
-                      assetName: AssetName.vectorTop),
+                    borderRadius: BorderRadius.circular(26),
+                    child: const SvgAsset(
+                        height: 500,
+                        width: 400,
+                        assetName: AssetName.vectorTopTop
+                    ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 11.w, right: 11.w, top: 22.h, bottom: 16.h,),
-                  child: Row(
+                  padding: EdgeInsets.only(left: 22.w, right: 22.w, top: 22.h, bottom: 16.h,),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        height: 130.w,
-                        width: 130.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: Image.network(image!).image,
+                        height: 300.h,
+                        width: 300.w,
+                        child: CachedNetworkImage(
+                          imageUrl: image!,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: imageProvider,
+                              ),
+                            ),
+                          ),
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              const SpinKitDoubleBounce(
+                                color: Colors.white,
+                                size: 50.0,
+                              ),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.white,
+                        thickness: 2,
+                        height: 24.h,
+                      ),
+                      Container(
+                        width: 280.w,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Hero(
+                            tag: tag!,
+                            child: DefaultTextStyle(
+                              child: Text(title!),
+                              style: TextStyle(
+                                  fontSize: 20.w,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 8.w,),
-                      Column(
-                        children: [
-                          Container(
-                            width: 180.w,
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Hero(
-                                tag: tag!,
-                                child: DefaultTextStyle(
-                                  child: Text(title!),
-                                  style: TextStyle(
-                                      fontSize: 20.w,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ),
+                      SizedBox(height: 8.h),
+                      Container(
+                        width: 280.w,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Hero(
+                            tag: tag!,
+                            child: DefaultTextStyle(
+                              child: Text(subtitle!),
+                              style: TextStyle(
+                                  fontSize: 16.w,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white),
                             ),
                           ),
-                          Container(height: 8.h, color: Colors.white,),
-                          /*Container(
-                            width: 180.w,
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Hero(
-                                tag: tag!,
-                                child: DefaultTextStyle(
-                                  child: Text(subtitle!),
-                                  style: TextStyle(
-                                      fontSize: 16.w,
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),*/
-                        ],
+                        ),
                       ),
                     ],
                   ),
