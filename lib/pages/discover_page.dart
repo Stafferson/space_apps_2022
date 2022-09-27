@@ -18,6 +18,8 @@ import 'package:fizmat_app_flutter/widgets/svg_asset.dart';
 
 import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 
+import '../widgets/category_boxes_shimmer.dart';
+
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({
     Key? key,
@@ -59,84 +61,91 @@ class _DiscoverPageState extends State<DiscoverPage> {
               ),
             ];
           },
-          body: ListView(
-            scrollDirection: Axis.vertical,
-            physics: BouncingScrollPhysics(),
-            children: [
-              /*Padding(
-              padding: EdgeInsets.only(
-                left: 28.w,
-                right: 18.w,
-                top: 16.h,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Discover",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 34.w,
-                          fontWeight: FontWeight.bold)),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(360),
-                    onTap: onSearchIconTapped,
-                    child: Container(
-                      height: 35.w,
-                      width: 35.w,
-                      child: Center(
-                        child: SvgAsset(
-                          assetName: AssetName.search,
-                          height: 24.w,
-                          width: 24.w,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),*/
-              category_boxes_builder(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 28.w),
+          body: RefreshIndicator(
+            onRefresh: () {
+              return Future.delayed(Duration(seconds: 1), () {
+                setState(() {});
+              });
+            },
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              children: [
+                /*Padding(
+                padding: EdgeInsets.only(
+                  left: 28.w,
+                  right: 18.w,
+                  top: 16.h,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Last News",
-                      style: TextStyle(
-                          color: Color(0xff515979),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14.w),
+                    Text("Discover",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 34.w,
+                            fontWeight: FontWeight.bold)),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(360),
+                      onTap: onSearchIconTapped,
+                      child: Container(
+                        height: 35.w,
+                        width: 35.w,
+                        child: Center(
+                          child: SvgAsset(
+                            assetName: AssetName.search,
+                            height: 24.w,
+                            width: 24.w,
+                          ),
+                        ),
+                      ),
                     ),
-                    GestureDetector(
-                        onTap: onSeeAllTapped,
-                        child: Text("See All",
-                            style: TextStyle(
-                                color: Color(0xff4A80F0),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.w)))
                   ],
                 ),
-              ),
-              SizedBox(height: 14.h,),
-              last_news_builder(),
-              SizedBox(height: 14.h),
-              Padding(
-                padding: EdgeInsets.only(left: 28.w),
-                child: Text(
-                  "Main menu",
-                  style: TextStyle(
-                      color: Color(0xff515979),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14.w),
+              ),*/
+                category_boxes_builder(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 28.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Last News",
+                        style: TextStyle(
+                            color: Color(0xff515979),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.w),
+                      ),
+                      GestureDetector(
+                          onTap: onSeeAllTapped,
+                          child: Text("See All",
+                              style: TextStyle(
+                                  color: Color(0xff4A80F0),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.w)))
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 14.h),
-              main_menu_builder(),
-              //SizedBox(height: 14.h),
-              //main_menu_builder(),
-              //SizedBox(height: 48.h),
-            ],
+                SizedBox(height: 14.h,),
+                last_news_builder(),
+                SizedBox(height: 14.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 28.w),
+                  child: Text(
+                    "Main menu",
+                    style: TextStyle(
+                        color: Color(0xff515979),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.w),
+                  ),
+                ),
+                SizedBox(height: 14.h),
+                main_menu_builder(),
+                //SizedBox(height: 14.h),
+                //main_menu_builder(),
+                //SizedBox(height: 48.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -262,7 +271,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   Widget category_boxes_builder() {
-    return Container(
+    /*return Container(
       height: 120.h,
       child: ListView(
         physics: BouncingScrollPhysics(),
@@ -279,11 +288,55 @@ class _DiscoverPageState extends State<DiscoverPage> {
             text: "Till the end:\nNonemin",
             onPressed: (value) => print(value),
           ),
-          CategoryBoxes(
-            text: "Credits: Tair Kareneyev 11E, Sanzhar Abdrakhim 11A, Alibi Amanzholov 11A",
-            onPressed: (value) => print(value),
-          ),
         ],
+      ),
+    );*/
+    return SizedBox(
+      height: 120.h,
+      child: FutureBuilder<List<List<String>>>(
+          future: NewsApi.get_last_3_news(),
+          builder: (context, snapshot) {
+            Widget _child;
+            if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+              _child = ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  SizedBox(
+                    width: 28.w,
+                  ),
+                  CategoryBoxes(
+                    text: "Current lesson:\nNone",
+                    onPressed: (value) => print(value),
+                    isCurrent: true,
+                  ),
+                  CategoryBoxes(
+                    text: "Till the end:\nNonemin",
+                    onPressed: (value) => print(value),
+                  ),
+                ],
+              );
+            }
+            else {
+              _child = ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  SizedBox(
+                    width: 28.w,
+                  ),
+                  CategoryBoxesShimmer(),
+                  CategoryBoxesShimmer(),
+                  CategoryBoxesShimmer(),
+                ],
+              );
+            }
+
+            return AnimatedSwitcher(
+              duration: Duration(milliseconds: 250),
+              child: _child,
+            );
+          }
       ),
     );
   }

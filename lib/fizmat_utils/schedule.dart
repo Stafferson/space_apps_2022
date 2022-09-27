@@ -106,7 +106,7 @@ class Schedule {
           arr4 = ["", "", "", "", "", "", "", "", "", ""];
         }
         if (arr00 == null || arr00.length == 0) {
-          arr00 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
+          arr00 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
         }
         if (arr11 == null || arr11.length == 0) {
           arr11 = ["8:00 - 8:45", "8:50 - 9.35", "9:50 - 10.35", "10:40 - 11.25", "11:45 - 12.30", "12:35 - 13.20", "13:40 - 14.25,", "14:30 - 15.15", "15:40 - 16.25", "16:30 - 17.15"];
@@ -259,6 +259,12 @@ class Schedule {
       prefs.setStringList("class_wednesday_schedule", arr22);
       prefs.setStringList("class_thursday_schedule", arr33);
       prefs.setStringList("class_friday_schedule", arr44);
+
+
+
+      print(prefs.getBool("is_schedule_saved"));
+      print(prefs.setBool("is_schedule_saved", true));
+      print(prefs.getBool("is_schedule_saved"));
 
       List<String> arr_saved_classes = prefs.getStringList("saved_classes") ?? [];
       print(arr_saved_classes);

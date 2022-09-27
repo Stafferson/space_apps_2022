@@ -43,24 +43,89 @@ class _ClassChoosePageState extends State<ClassChoosePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbar_builder(),
+      //appBar: appbar_builder(),
       backgroundColor: Color(0xff121421),
       body: SafeArea(
-        child: Stack(
-          children: [
-            ListView(
-              physics: BouncingScrollPhysics(),
-              children: [
-                SizedBox(
-                  height: 16.h,
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                floating: true,
+                snap: true,
+                toolbarHeight: 60.h,
+                leading: Padding(
+                  padding: EdgeInsets.only(
+                    top: 10.h,
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Get.back(),
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 10.h),
-                  child: class_list_builder(),
+                centerTitle: true,
+                title: Padding(
+                  padding: EdgeInsets.only(
+                    left: 14.w,
+                    top: 10.h,
+                  ),
+                  child: Text("All classes",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 34.w,
+                          fontWeight: FontWeight.bold)
+                  ),
                 ),
-              ],
-            ),
-          ],
+                backgroundColor: Color(0xff121421),
+                actions: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 10.h,
+                    ),
+                    child: AnimateIcons(
+                      startIcon: Icons.refresh_rounded,
+                      endIcon: Icons.refresh_rounded,
+                      size: 28.0,
+                      // add this tooltip for the start icon
+                      startTooltip: 'Icons.add_circle',
+                      // add this tooltip for the end icon
+                      endTooltip: 'Icons.add_circle_outline',
+                      controller: _controller,
+                      onStartIconPress: () {
+                        setState(() {});
+                        return true;
+                      },
+                      onEndIconPress: () {
+                        setState(() {});
+                        return true;
+                      },
+                      startIconColor: Colors.white,
+                      endIconColor: Colors.white,
+                      duration: Duration(milliseconds: 500),
+                      clockwise: true,
+                    ),
+                  ),
+                ],
+              ),
+            ];
+          },
+          body: Stack(
+            children: [
+              ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 10.h),
+                    child: class_list_builder(),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

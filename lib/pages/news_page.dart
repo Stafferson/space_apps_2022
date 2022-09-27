@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:fizmat_app_flutter/fizmat_utils/newsAPI.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -55,24 +56,45 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff121421),
-      appBar: appbar_builder(),
+      //appBar: appbar_builder(),
       body: SafeArea(
-        child: /*Stack(
-          children: [
-            ListView(
-              children: [
-                SizedBox(
-                  height: 16.h,
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                floating: true,
+                snap: true,
+                toolbarHeight: 60,
+                leading: Padding(
+                  padding: EdgeInsets.only(
+                    top: 10.h,
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Get.back(),
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 10.h),
-                  child: news_builder(),
+                centerTitle: true,
+                title: Padding(
+                  padding: EdgeInsets.only(
+                    left: 14.w,
+                    top: 10.h,
+                  ),
+                  child: Text("All News",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 34.w,
+                          fontWeight: FontWeight.bold)
+                  ),
                 ),
-              ],
-            )
-          ],
-        ),*/
-        news_builder(),
+                backgroundColor: Color(0xff121421),
+              ),
+            ];
+          },
+          body: news_builder(),
+        ),
       ),
     );
   }
@@ -155,32 +177,40 @@ class _NewsPageState extends State<NewsPage> {
             pagingController: _pagingController,
             padding: const EdgeInsets.all(16),
             builderDelegate: PagedChildBuilderDelegate<List<String>>(
-              itemBuilder: (context, item, index) {
-                String title = "";
-                String subtitle = "";
-                //if (item[0].length > 45) {
-                //  title = "${item[0].substring(
-                //      0, 46)}...";
-                //} else {
-                //  title = item[0];
-                //}
+                newPageProgressIndicatorBuilder: (_) => const SpinKitDoubleBounce(
+                  color: Colors.white,
+                  size: 50.0,
+                ),
+                firstPageProgressIndicatorBuilder: (_) => const SpinKitDoubleBounce(
+                  color: Colors.white,
+                  size: 50.0,
+                ),
+                itemBuilder: (context, item, index) {
+                  String title = "";
+                  String subtitle = "";
+                  //if (item[0].length > 45) {
+                  //  title = "${item[0].substring(
+                  //      0, 46)}...";
+                  //} else {
+                  //  title = item[0];
+                  //}
 
-                title = item[0];
+                  title = item[0];
 
-                //if (item[1].length > 41) {
-                //  subtitle = "${item[1].substring(0, 42)}...";
-                //} else {
-                //  subtitle = item[1];
-                //}
-                subtitle = item[1];
-                return NewsItem(
-                  title: title,
-                  subtitle: subtitle,
-                  image: item[2],
-                  url: item[3],
-                  tag: "all_news_$index",
-                  onTap: () => onNewsTapped(index, item, "all_news_$index"),
-                );
+                  //if (item[1].length > 41) {
+                  //  subtitle = "${item[1].substring(0, 42)}...";
+                  //} else {
+                  //  subtitle = item[1];
+                  //}
+                  subtitle = item[1];
+                  return NewsItem(
+                    title: title,
+                    subtitle: subtitle,
+                    image: item[2],
+                    url: item[3],
+                    tag: "all_news_$index",
+                    onTap: () => onNewsTapped(index, item, "all_news_$index"),
+                  );
               }
             ),
             separatorBuilder: (contex, index) => SizedBox(height: 16.h),
